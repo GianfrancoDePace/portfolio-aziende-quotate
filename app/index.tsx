@@ -2,10 +2,12 @@ import { useState } from "react";
 import { FlatList, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import AggiuntaAzienda from "./AggiuntaAzienda";
 import { Azienda, aziendeIniziali } from "./aziende";
+import Filter from "./components/filter";
 
 export default function Index() {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [aziende, setAziende] = useState<Azienda[]>(aziendeIniziali);
+  const [filter, setFilter] = useState("");
 
   const handleOpenModal = () => setIsModalVisible(true);
   const handleCloseModal = () => setIsModalVisible(false);
@@ -18,6 +20,11 @@ export default function Index() {
   const handleDeleteAzienda = (id: string) => {
     setAziende(aziende.filter(a => a.id !== id));
   };
+
+  // Filtra le aziende in base al nome
+  const aziendeFiltrate = aziende.filter(a =>
+    a.nome.toLowerCase().includes(filter.toLowerCase())
+  );
 
   const renderItem = ({ item }: { item: Azienda }) => (
     <View style={styles.itemContainer}>
@@ -48,11 +55,12 @@ export default function Index() {
       >
         <Text style={styles.addButtonText}>Aggiungi una nuova azienda</Text>
       </TouchableOpacity>
+      <Filter value={filter} onChange={setFilter} /> 
       <FlatList
-        data={aziende}
+        data={aziendeFiltrate}
         renderItem={renderItem}
         keyExtractor={item => item.id}
-        contentContainerStyle={aziende.length === 0 ? styles.emptyList : undefined}
+        contentContainerStyle={aziendeFiltrate.length === 0 ? styles.emptyList : undefined}
         ListEmptyComponent={<Text>Non ci sono aziende disponibili</Text>}
         style={styles.flatList}
       />
