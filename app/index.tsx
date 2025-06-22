@@ -12,16 +12,17 @@ export default function Index() {
   const handleOpenModal = () => setIsModalVisible(true);
   const handleCloseModal = () => setIsModalVisible(false);
 
+  // Funzione per aggiungere una nuova azienda
   const handleAddAzienda = (nuovaAzienda: Azienda) => {
     setAziende([...aziende, nuovaAzienda]);
     handleCloseModal();
   };
-
+  // Funzione per eliminare un'azienda
   const handleDeleteAzienda = (id: string) => {
     setAziende(aziende.filter(a => a.id !== id));
   };
 
-  // Filtra le aziende in base al nome
+  // Funzione per filtrare le aziende in base al nome
   const aziendeFiltrate = aziende.filter(a =>
     a.nome.toLowerCase().includes(filter.toLowerCase())
   );
@@ -29,13 +30,22 @@ export default function Index() {
   const renderItem = ({ item }: { item: Azienda }) => (
     <View style={styles.itemContainer}>
       <View style={{ flex: 1 }}>
-        <Text style={styles.nome}>{item.nome}</Text>
+        <Text style={styles.nome}>{item.nome} <Text style={styles.ticker}>({(item as any).ticker})</Text></Text>
         <Text style={styles.description}>{item.description}</Text>
+        <Text style={styles.detail}>
+          Azioni possedute: <Text style={styles.bold}>{(item as any).azioniPossedute ?? '-'}</Text>
+        </Text>
+        <Text style={styles.detail}>
+          Prezzo: <Text style={styles.bold}>{(item as any).prezzo ?? '-'}</Text>
+        </Text>
         {item.utili !== undefined && (
           <Text style={[styles.utili, { color: item.utili >= 0 ? 'green' : 'red' }]}>
             {item.utili >= 0 ? '+' : ''}{item.utili.toLocaleString()} €
           </Text>
         )}
+        <Text style={styles.detail}>
+          {item.isProfitable ? "Profittevole" : "In perdita"}
+        </Text>
       </View>
       <TouchableOpacity
         style={styles.deleteButton}
@@ -128,5 +138,16 @@ const styles = StyleSheet.create({
   },
   deleteIcon: {
     fontSize: 22,
+  },
+  ticker: {
+    fontSize: 14,
+    color: '#999',
+  },
+  detail: {
+    color: '#333',
+    marginTop: 2,
+  },
+  bold: {
+    fontWeight: 'bold',
   },
 });
