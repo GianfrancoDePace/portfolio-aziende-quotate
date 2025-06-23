@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { Button, Modal, StyleSheet, Text, TextInput, View } from 'react-native';
+import { Button, Modal, StyleSheet, Switch, Text, TextInput, View } from 'react-native';
 import { v4 as uuidv4 } from 'uuid';
-import { Azienda } from './aziende';
+import { Azienda } from '../types/Azienda';
 
 interface AggiuntaAziendaProps {
   visible: boolean;
@@ -11,27 +11,36 @@ interface AggiuntaAziendaProps {
 
 export default function AggiuntaAzienda({ visible, onClose, onAddAzienda }: AggiuntaAziendaProps) {
   const [nome, setNome] = useState('');
+  const [ticker, setTicker] = useState('');
   const [description, setDescription] = useState('');
+  const [azioniPossedute, setAzioniPossedute] = useState('');
+  const [prezzo, setPrezzo] = useState('');
   const [utili, setUtili] = useState('');
   const [isProfitable, setIsProfitable] = useState(true);
 
   const handleAddCompany = () => {
-    if (nome && description) {
+    if (nome && ticker && description && azioniPossedute && prezzo) {
       const nuovaAzienda: Azienda = {
         id: uuidv4(),
-        nome: nome,
-        description: description,
+        nome,
+        ticker,
+        description,
+        azioniPossedute: parseInt(azioniPossedute),
+        prezzo:parseFloat(prezzo),
         utili: utili ? parseFloat(utili) : undefined,
-        isProfitable: false
+        isProfitable,
       };
       onAddAzienda(nuovaAzienda);
       setNome('');
+      setTicker('');
       setDescription('');
+      setAzioniPossedute('');
+      setPrezzo('');
       setUtili('');
-      setIsProfitable(false);
+      setIsProfitable(true);
       onClose();
     } else {
-      alert('Nome and description are required.');
+      alert('Tutti i campi tranne utili sono obbligatori.');
     }
   };
 
@@ -53,9 +62,28 @@ export default function AggiuntaAzienda({ visible, onClose, onAddAzienda }: Aggi
           />
           <TextInput
             style={styles.input}
+            placeholder="Ticker"
+            value={ticker}
+            onChangeText={setTicker}
+          />
+          <TextInput
+            style={styles.input}
             placeholder="Descrizione"
             value={description}
             onChangeText={setDescription}
+          />
+          <TextInput
+            style={styles.input}
+            placeholder="Azioni Possedute"
+            value={azioniPossedute}
+            onChangeText={setAzioniPossedute}
+            keyboardType="numeric"
+          />
+          <TextInput
+            style={styles.input}
+            placeholder="Prezzo"
+            value={prezzo}
+            onChangeText={setPrezzo}
           />
           <TextInput
             style={styles.input}
@@ -64,6 +92,13 @@ export default function AggiuntaAzienda({ visible, onClose, onAddAzienda }: Aggi
             onChangeText={setUtili}
             keyboardType="numeric"
           />
+          <View style={styles.switchContainer}>
+            <Text>Profittevole</Text>
+            <Switch
+              value={isProfitable}
+              onValueChange={setIsProfitable}
+            />
+          </View>
           <Button title="Aggiungi" onPress={handleAddCompany} />
           <Button title="Chiudi" onPress={onClose} color="red" />
         </View>
@@ -108,5 +143,11 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     backgroundColor: '#fff',
     width: 200,
+  },
+  switchContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 10,
+    gap: 10,
   },
 });

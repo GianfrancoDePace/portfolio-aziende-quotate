@@ -1,21 +1,14 @@
-export type Azienda = {
-  id: string;
-  nome: string;
-  description: string;
-  utili?: number;
-  isProfitable: boolean;
-};
-
-export const aziendeIniziali = [
+import { Azienda } from "../types/Azienda";
+export const aziendeIniziali: Azienda[] = [
   {
     id: "1",
     nome: "Apple",
     ticker: "AAPL",
     description: "Azienda tecnologica",
     azioniPossedute: 200,
-    prezzo: "28€",
+    prezzo: 28,
     utili: 1000,
-    isProfitable: true,
+    isProfitable: true, //TBC
   },
   {
     id: "2",
@@ -23,7 +16,7 @@ export const aziendeIniziali = [
     ticker: "MSFT",
     description: "Azienda di software",
     azioniPossedute: 200,
-    prezzo: "28€",
+    prezzo: 28,
     utili: 2000,
     isProfitable: true,
   },
@@ -33,7 +26,7 @@ export const aziendeIniziali = [
     ticker: "GOOGL",
     description: "Azienda di ricerca e pubblicità",
     azioniPossedute: 200,
-    prezzo: "28€",
+    prezzo: 28,
     utili: -3000,
     isProfitable: true,
   },
@@ -43,7 +36,7 @@ export const aziendeIniziali = [
     ticker: "AMZN",
     description: "Azienda di e-commerce",
     azioniPossedute: 200,
-    prezzo: "28€",
+    prezzo: 28,
     utili: 4000,
     isProfitable: true,
   },
@@ -53,17 +46,17 @@ export const aziendeIniziali = [
     ticker: "TSLA",
     description: "Azienda automobilistica elettrica",
     azioniPossedute: 200,
-    prezzo: "28€",
+    prezzo: 28,
     utili: 5000,
     isProfitable: true,
   },
   {
     id: "6",
-    nome: "Facebook",
-    ticker: "FB",
+    nome: "Meta (Facebook)",
+    ticker: "META",
     description: "Azienda di social media",
     azioniPossedute: 200,
-    prezzo: "28€",
+    prezzo: 28,
     utili: -6000,
     isProfitable: true,
   },
@@ -73,27 +66,27 @@ export const aziendeIniziali = [
     ticker: "NFLX",
     description: "Azienda di streaming video",
     azioniPossedute: 200,
-    prezzo: "28€",
+    prezzo: 28,
     utili: 7000,
     isProfitable: true,
   },
   {
     id: "8",
     nome: "Samsung",
-    ticker: "SMSG",
+    ticker: "SSNLF",
     description: "Azienda di elettronica",
     azioniPossedute: 200,
-    prezzo: "28€",
+    prezzo: 28,
     utili: 8000,
     isProfitable: true,
   },
   {
     id: "9",
     nome: "Sony",
-    ticker: "SONY",
+    ticker: "SNE",
     description: "Azienda di elettronica e intrattenimento",
     azioniPossedute: 200,
-    prezzo: "28€",
+    prezzo: 28,
     utili: 9000,
     isProfitable: true,
   },
