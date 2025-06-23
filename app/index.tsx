@@ -1,6 +1,8 @@
-import { useState } from "react";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useEffect, useState } from "react";
 import { ActivityIndicator, FlatList, Modal, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { aziendeIniziali } from "./Data/AziendeMockData";
+// import History from "./api/GET/History";
 import Quoted from "./api/GET/Quoted";
 import AggiuntaAzienda from "./components/AddNewCompany";
 import Filter from "./components/filter";
@@ -11,6 +13,7 @@ export default function Index() {
   const [aziende, setAziende] = useState<Azienda[]>(aziendeIniziali);
   const [filter, setFilter] = useState("");
   const [quotes, setQuotes] = useState<Record<string, any>>({});
+  const [history, setHistory] = useState<Record<string, any>>({});
   const [selectedAzienda, setSelectedAzienda] = useState<Azienda | null>(null);
 
   const handleOpenModal = () => setIsModalVisible(true);
@@ -84,6 +87,18 @@ export default function Index() {
     </TouchableOpacity>
   );
 
+  useEffect(() => {
+    const loadAziende = async () => {
+      const saved = await AsyncStorage.getItem('aziende');
+      if (saved) setAziende(JSON.parse(saved));
+    };
+    loadAziende();
+  }, []);
+
+  useEffect(() => {
+    AsyncStorage.setItem('aziende', JSON.stringify(aziende));
+  }, [aziende]);
+
   return (
     <View style={styles.container}>
       <TouchableOpacity
@@ -101,13 +116,14 @@ export default function Index() {
         ListEmptyComponent={<Text>Non ci sono aziende disponibili</Text>}
         style={styles.flatList}
       />
+      
       <AggiuntaAzienda
         visible={isModalVisible}
         onClose={handleCloseModal}
         onAddAzienda={handleAddAzienda}
       />
 
-      {/* Quoted per ogni azienda */}
+      {/* Quote per ogni azienda */}
       {aziende.map(a => (
         <Quoted
           key={a.ticker}
@@ -115,6 +131,17 @@ export default function Index() {
           onData={data => handleQuoteData(a.ticker, data)}
         />
       ))}
+{/* 
+      Storico per ogni azienda
+      {aziende.map(a => (
+        <History
+          key={a.ticker}
+          ticker={a.ticker}
+          onData={data => setHistory(prev => ({ ...prev, [a.ticker]: data }))}
+        />
+      ))} 
+        */}
+
 
       {/* Modale per mostrare i dati quotati */}
       <Modal
@@ -139,6 +166,7 @@ export default function Index() {
             <Text style={{ fontWeight: 'bold', fontSize: 18, marginBottom: 8 }}>
               {selectedAzienda?.nome} ({selectedAzienda?.ticker})
             </Text>
+            {/* Dati correnti */}
             {selectedAzienda && quotes[selectedAzienda.ticker] ? (
               <>
                 <Text>Prezzo attuale: <Text style={{ fontWeight: 'bold' }}>{quotes[selectedAzienda.ticker].c}</Text></Text>
@@ -150,6 +178,46 @@ export default function Index() {
             ) : (
               <ActivityIndicator size="large" color="blue" />
             )}
+            {/* Storico
+            {selectedAzienda && history[selectedAzienda.ticker] && history[selectedAzienda.ticker].c ? (
+              <>
+                <Text style={{ marginTop: 12, fontWeight: 'bold' }}>Andamento ultimi giorni:</Text>
+                <LineChart
+                  data={{
+                    labels: history[selectedAzienda.ticker].t.map((timestamp: number, idx: number, arr: number[]) => {
+                      // Mostra solo la data per il primo, metà e ultimo punto
+                      if (idx === 0 || idx === Math.floor(arr.length / 2) || idx === arr.length - 1) {
+                        const date = new Date(timestamp * 1000);
+                        return `${date.getDate()}/${date.getMonth() + 1}`;
+                      }
+                      return "";
+                    }),
+                    datasets: [
+                      {
+                        data: history[selectedAzienda.ticker].c,
+                      },
+                    ],
+                  }}
+                  width={Dimensions.get("window").width * 0.8}
+                  height={220}
+                  yAxisLabel="€"
+                  chartConfig={{
+                    backgroundColor: "#fff",
+                    backgroundGradientFrom: "#fff",
+                    backgroundGradientTo: "#fff",
+                    decimalPlaces: 2,
+                    color: (opacity = 1) => `rgba(0, 123, 255, ${opacity})`,
+                    labelColor: (opacity = 1) => `rgba(0,0,0,${opacity})`,
+                    style: { borderRadius: 16 },
+                    propsForDots: { r: "4", strokeWidth: "2", stroke: "#007bff" }
+                  }}
+                  bezier
+                  style={{ marginVertical: 8, borderRadius: 12 }}
+                />
+              </>
+            ) : (
+              <ActivityIndicator size="small" color="gray" />
+            )} */}
             <TouchableOpacity
               style={{ marginTop: 16, backgroundColor: 'red', padding: 10, borderRadius: 6 }}
               onPress={() => setSelectedAzienda(null)}

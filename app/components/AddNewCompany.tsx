@@ -26,7 +26,7 @@ export default function AggiuntaAzienda({ visible, onClose, onAddAzienda }: Aggi
         ticker,
         description,
         azioniPossedute: parseInt(azioniPossedute),
-        prezzo:parseFloat(prezzo),
+        prezzo: prezzo ? parseFloat(prezzo) : undefined,
         utili: utili ? parseFloat(utili) : undefined,
         isProfitable,
       };
@@ -40,7 +40,7 @@ export default function AggiuntaAzienda({ visible, onClose, onAddAzienda }: Aggi
       setIsProfitable(true);
       onClose();
     } else {
-      alert('Tutti i campi tranne utili sono obbligatori.');
+      alert('Tutti i campi tranne prezzo e utili sono obbligatori.');
     }
   };
 
