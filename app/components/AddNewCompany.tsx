@@ -1,6 +1,19 @@
 import React, { useState } from 'react';
-import { Button, Modal, StyleSheet, Switch, Text, TextInput, View } from 'react-native';
+import {
+  Alert,
+  Dimensions,
+  Modal,
+  ScrollView,
+  Switch,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View
+} from 'react-native';
 import { v4 as uuidv4 } from 'uuid';
+
+import modalStyles from '../style/ModalStyle';
+import addNewCompanyStyles from '../style/NewCompanyStyle';
 import { Azienda } from '../types/Azienda';
 
 interface AggiuntaAziendaProps {
@@ -8,6 +21,8 @@ interface AggiuntaAziendaProps {
   onClose: () => void;
   onAddAzienda: (azienda: Azienda) => void;
 }
+
+const { height } = Dimensions.get('window');
 
 export default function AggiuntaAzienda({ visible, onClose, onAddAzienda }: AggiuntaAziendaProps) {
   const [nome, setNome] = useState('');
@@ -17,9 +32,31 @@ export default function AggiuntaAzienda({ visible, onClose, onAddAzienda }: Aggi
   const [prezzo, setPrezzo] = useState('');
   const [utili, setUtili] = useState('');
   const [isProfitable, setIsProfitable] = useState(true);
+  const [errors, setErrors] = useState<{ [key: string]: boolean }>({});
+
+  const resetForm = () => {
+    setNome('');
+    setTicker('');
+    setDescription('');
+    setAzioniPossedute('');
+    setPrezzo('');
+    setUtili('');
+    setIsProfitable(true);
+    setErrors({});
+  };
+
+  const validateFields = () => {
+    const newErrors: { [key: string]: boolean } = {};
+    if (!nome) newErrors.nome = true;
+    if (!ticker) newErrors.ticker = true;
+    if (!description) newErrors.description = true;
+    if (!azioniPossedute) newErrors.azioniPossedute = true;
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
 
   const handleAddCompany = () => {
-    if (nome && ticker && description && azioniPossedute && prezzo) {
+    if (validateFields()) {
       const nuovaAzienda: Azienda = {
         id: uuidv4(),
         nome,
@@ -31,123 +68,142 @@ export default function AggiuntaAzienda({ visible, onClose, onAddAzienda }: Aggi
         isProfitable,
       };
       onAddAzienda(nuovaAzienda);
-      setNome('');
-      setTicker('');
-      setDescription('');
-      setAzioniPossedute('');
-      setPrezzo('');
-      setUtili('');
-      setIsProfitable(true);
+      resetForm();
       onClose();
     } else {
-      alert('Tutti i campi tranne prezzo e utili sono obbligatori.');
+      Alert.alert(
+        'Campi Obbligatori',
+        'Per favore, compila tutti i campi obbligatori (contrassegnati con *).'
+      );
     }
   };
 
   return (
     <Modal
       animationType="slide"
-      transparent={true}
+      transparent
       visible={visible}
       onRequestClose={onClose}
     >
-      <View style={styles.centeredView}>
-        <View style={styles.modalView}>
-          <Text style={styles.title}>Aggiungi Azienda</Text>
-          <TextInput
-            style={styles.input}
-            placeholder="Nome"
-            value={nome}
-            onChangeText={setNome}
-          />
-          <TextInput
-            style={styles.input}
-            placeholder="Ticker"
-            value={ticker}
-            onChangeText={setTicker}
-          />
-          <TextInput
-            style={styles.input}
-            placeholder="Descrizione"
-            value={description}
-            onChangeText={setDescription}
-          />
-          <TextInput
-            style={styles.input}
-            placeholder="Azioni Possedute"
-            value={azioniPossedute}
-            onChangeText={setAzioniPossedute}
-            keyboardType="numeric"
-          />
-          <TextInput
-            style={styles.input}
-            placeholder="Prezzo"
-            value={prezzo}
-            onChangeText={setPrezzo}
-          />
-          <TextInput
-            style={styles.input}
-            placeholder="Utili (opzionale)"
-            value={utili}
-            onChangeText={setUtili}
-            keyboardType="numeric"
-          />
-          <View style={styles.switchContainer}>
-            <Text>Profittevole</Text>
-            <Switch
-              value={isProfitable}
-              onValueChange={setIsProfitable}
-            />
-          </View>
-          <Button title="Aggiungi" onPress={handleAddCompany} />
-          <Button title="Chiudi" onPress={onClose} color="red" />
+      <View style={modalStyles.modalOverlay}>
+        <View style={modalStyles.modalView}>
+          <ScrollView
+            showsVerticalScrollIndicator={false}
+            contentContainerStyle={addNewCompanyStyles.scrollContent}
+          >
+            <View style={addNewCompanyStyles.header}>
+              <View style={addNewCompanyStyles.headerIcon}>
+                <Text style={addNewCompanyStyles.iconText}>📊</Text>
+              </View>
+              <Text style={addNewCompanyStyles.title}>Nuova Azienda</Text>
+              <Text style={addNewCompanyStyles.subtitle}>Aggiungi una nuova società al tuo portfolio</Text>
+            </View>
+
+            <View style={addNewCompanyStyles.formContainer}>
+              <View style={addNewCompanyStyles.inputGroup}>
+                <Text style={addNewCompanyStyles.label}>Nome Azienda <Text style={addNewCompanyStyles.requiredIndicator}>*</Text></Text>
+                <TextInput
+                  style={[addNewCompanyStyles.input, errors.nome && addNewCompanyStyles.inputError]}
+                  placeholder="es. Apple Inc."
+                  placeholderTextColor="#94A3B8"
+                  value={nome}
+                  onChangeText={setNome}
+                />
+              </View>
+              <View style={addNewCompanyStyles.inputGroup}>
+                <Text style={addNewCompanyStyles.label}>Ticker Symbol <Text style={addNewCompanyStyles.requiredIndicator}>*</Text></Text>
+                <TextInput
+                  style={[addNewCompanyStyles.input, errors.ticker && addNewCompanyStyles.inputError]}
+                  placeholder="es. AAPL"
+                  placeholderTextColor="#94A3B8"
+                  value={ticker}
+                  onChangeText={setTicker}
+                  autoCapitalize="characters"
+                />
+              </View>
+              <View style={addNewCompanyStyles.inputGroup}>
+                <Text style={addNewCompanyStyles.label}>Descrizione <Text style={addNewCompanyStyles.requiredIndicator}>*</Text></Text>
+                <TextInput
+                  style={[addNewCompanyStyles.input, addNewCompanyStyles.textArea, errors.description && addNewCompanyStyles.inputError]}
+                  placeholder="Descrivi l'attività dell'azienda..."
+                  placeholderTextColor="#94A3B8"
+                  value={description}
+                  onChangeText={setDescription}
+                  multiline
+                  numberOfLines={3}
+                />
+              </View>
+              <View style={addNewCompanyStyles.inputGroup}>
+                <Text style={addNewCompanyStyles.label}>Azioni Possedute <Text style={addNewCompanyStyles.requiredIndicator}>*</Text></Text>
+                <TextInput
+                  style={[addNewCompanyStyles.input, errors.azioniPossedute && addNewCompanyStyles.inputError]}
+                  placeholder="100"
+                  placeholderTextColor="#94A3B8"
+                  value={azioniPossedute}
+                  onChangeText={setAzioniPossedute}
+                  keyboardType="numeric"
+                />
+              </View>
+              <View style={addNewCompanyStyles.inputGroup}>
+                <Text style={addNewCompanyStyles.label}>Prezzo per Azione</Text>
+                <TextInput
+                  style={addNewCompanyStyles.input}
+                  placeholder="€ 150.00"
+                  placeholderTextColor="#94A3B8"
+                  value={prezzo}
+                  onChangeText={setPrezzo}
+                  keyboardType="decimal-pad"
+                />
+              </View>
+              <View style={addNewCompanyStyles.inputGroup}>
+                <Text style={addNewCompanyStyles.label}>Utili Annuali</Text>
+                <TextInput
+                  style={addNewCompanyStyles.input}
+                  placeholder="€ 15,000"
+                  placeholderTextColor="#94A3B8"
+                  value={utili}
+                  onChangeText={setUtili}
+                  keyboardType="decimal-pad"
+                />
+              </View>
+              <View style={addNewCompanyStyles.switchGroup}>
+                <View style={addNewCompanyStyles.switchContent}>
+                  <View>
+                    <Text style={addNewCompanyStyles.switchLabel}>Azienda Profittevole</Text>
+                    <Text style={addNewCompanyStyles.switchDescription}>
+                      {isProfitable ? 'Genera profitti positivi' : 'Non profittevole'}
+                    </Text>
+                  </View>
+                  <Switch
+                    value={isProfitable}
+                    onValueChange={setIsProfitable}
+                    trackColor={{ false: '#E2E8F0', true: '#10B981' }}
+                    thumbColor="#FFFFFF"
+                    ios_backgroundColor="#E2E8F0"
+                  />
+                </View>
+              </View>
+            </View>
+
+            <View style={addNewCompanyStyles.buttonContainer}>
+              <TouchableOpacity
+                style={addNewCompanyStyles.primaryButton}
+                onPress={handleAddCompany}
+                activeOpacity={0.8}
+              >
+                <Text style={addNewCompanyStyles.primaryButtonText}>Aggiungi Azienda</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={addNewCompanyStyles.secondaryButton}
+                onPress={() => { resetForm(); onClose(); }}
+                activeOpacity={0.8}
+              >
+                <Text style={addNewCompanyStyles.secondaryButtonText}>Annulla</Text>
+              </TouchableOpacity>
+            </View>
+          </ScrollView>
         </View>
       </View>
     </Modal>
   );
 }
-
-const styles = StyleSheet.create({
-  centeredView: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginTop: 22,
-  },
-  modalView: {
-    margin: 20,
-    backgroundColor: 'white',
-    borderRadius: 20,
-    padding: 35,
-    alignItems: 'center',
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 5,
-  },
-  title: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    marginBottom: 20,
-    textAlign: 'center',
-  },
-  input: {
-    height: 40,
-    borderColor: 'gray',
-    borderWidth: 1,
-    marginBottom: 10,
-    paddingHorizontal: 10,
-    backgroundColor: '#fff',
-    width: 200,
-  },
-  switchContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 10,
-    gap: 10,
-  },
-});

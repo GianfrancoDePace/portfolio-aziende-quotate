@@ -8,7 +8,7 @@ export const aziendeIniziali: Azienda[] = [
     azioniPossedute: 200,
     prezzo: 28,
     utili: 1000,
-    isProfitable: true, //TBC
+    isProfitable: true, 
   },
   {
     id: "2",

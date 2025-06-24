@@ -2,8 +2,7 @@ import axios from 'axios';
 import { useEffect } from 'react';
 
 const API_URL = 'https://finnhub.io/api/v1/quote?symbol=';
-
-const TOKEN = process.env.EXPO_PUBLIC_FINNHUB_API_KEY;
+const TOKEN = process.env.EXPO_PUBLIC_FINNHUB_API_KEY; 
 
 export default function Quoted({ ticker, onData }: { ticker: string, onData: (data: any) => void }) {
     useEffect(() => {
@@ -18,7 +17,7 @@ export default function Quoted({ ticker, onData }: { ticker: string, onData: (da
         fetchData();
     }, [ticker]);
 
-    return null; // Non renderizza nulla, solo fetch e callback
+    return null; 
 }
 
 

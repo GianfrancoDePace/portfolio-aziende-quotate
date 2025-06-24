@@ -1,5 +1,7 @@
 import React from "react";
-import { StyleSheet, TextInput, View } from "react-native";
+import { TextInput, View } from "react-native";
+import mainStyles from "../style/MainStyle";
+import addNewCompanyStyles from "../style/NewCompanyStyle";
 
 interface FilterProps {
   value: string;
@@ -8,9 +10,9 @@ interface FilterProps {
 
 export default function Filter({ value, onChange }: FilterProps) {
   return (
-    <View style={styles.container}>
+    <View style={mainStyles.container}>
       <TextInput
-        style={styles.input}
+        style={addNewCompanyStyles.input}
         placeholder="Filtra per nome azienda..."
         value={value}
         onChangeText={onChange}
@@ -19,17 +21,3 @@ export default function Filter({ value, onChange }: FilterProps) {
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    padding: 10,
-    backgroundColor: "#f9f9f9",
-  },
-  input: {
-    height: 40,
-    borderColor: "#ccc",
-    borderWidth: 1,
-    borderRadius: 8,
-    paddingHorizontal: 10,
-    backgroundColor: "#fff",
-  },
-});
