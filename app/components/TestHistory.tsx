@@ -3,7 +3,7 @@ import { ScrollView, Text, View } from "react-native";
 import History from "../api/GET/History";
 import Azienda from "../types/Azienda";
 
-export default function TestHistory({ aziende }: { aziende: Azienda[] }) {
+export default function TestHistory({ aziende }: { aziende: Azienda[] }) { // TODO rinominare la funzione
   const [data, setData] = useState<Record<string, any>>({});
 
   return (
@@ -12,7 +12,7 @@ export default function TestHistory({ aziende }: { aziende: Azienda[] }) {
         <History
           key={azienda.ticker}
           ticker={azienda.ticker}
-          onData={d => setData(prev => ({ ...prev, [azienda.ticker]: d }))}
+          onData={d => setData(prev => ({ ...prev, [azienda.ticker]: d }))} 
         />
       ))}
       <ScrollView>

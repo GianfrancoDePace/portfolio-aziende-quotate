@@ -134,7 +134,7 @@ export default function Index() {
               ) : (
                 <ActivityIndicator size="large" color="blue" />
               )}
-              <Text style={modalStyles.modalTitle} > Storico azione </Text>
+              <Text style={modalStyles.modalTitle} > Storico azioni </Text>
               {selectedAzienda && (
                 <History
                   ticker={selectedAzienda.ticker}
