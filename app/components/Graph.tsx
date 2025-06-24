@@ -3,12 +3,13 @@ import { View } from "react-native";
 import { LineChart } from "react-native-gifted-charts";
 
 interface GraphProps {
-  historyData: any; 
-  days?: number; 
+  historyData: any;
+  days?: number;
 }
 
 export default function GraphedData({ historyData, days = 7 }: GraphProps) {
   let data: { value: number }[] = [];
+  let xLabels: string[] = [];
 
   if (
     historyData &&
@@ -22,10 +23,16 @@ export default function GraphedData({ historyData, days = 7 }: GraphProps) {
       .map(date => ({
         value: Number(daily[date]["4. close"])
       }))
-      .reverse(); // per mostrare dal più vecchio al più recente
+      .reverse(); // dal più vecchio al più recente
+    xLabels = dates
+      .slice(0, days)
+      .map(date => {
+        const d = new Date(date);
+        return `${d.getDate()}/${d.getMonth() + 1}`; // formato gg/mm
+      })
+      .reverse();
   }
 
-  // Valori di fallback se la fetch non restituisce dati validi
   if (!data.length) {
     data = [
       { value: 100 },
@@ -36,21 +43,24 @@ export default function GraphedData({ historyData, days = 7 }: GraphProps) {
       { value: 107 },
       { value: 110 }
     ];
+    xLabels = ['lun', 'mar', 'mer', 'gio', 'ven', 'sab', 'dom'];
   }
 
   return (
     <View style={{ height: 300, paddingTop: 25 }}>
       <LineChart
         data={data}
+        xAxisLabelTexts={xLabels}
         animateOnDataChange
         yAxisOffset={90}
-        showValuesAsDataPointsText 
+        showValuesAsDataPointsText
         textShiftY={-8}
         textShiftX={-10}
         textFontSize={13}
         hideRules
         showVerticalLines
-        verticalLinesColor='rgb(14,164,164,0.2'/>
+        verticalLinesColor='rgb(14,164,164,0.2'
+      />
     </View>
   );
 }
