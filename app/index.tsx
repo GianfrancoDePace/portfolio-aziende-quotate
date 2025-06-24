@@ -2,14 +2,17 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Stack } from "expo-router";
 import { useEffect, useState } from "react";
 import { ActivityIndicator, FlatList, Modal, ScrollView, Text, TouchableOpacity, View } from "react-native";
+import History from "./api/GET/History";
 import Quoted from "./api/GET/Quoted";
 import AggiuntaAzienda from "./components/AddNewCompany";
 import CompanyCard from "./components/CompanyCard";
 import Filter from "./components/filter";
-import { aziendeIniziali } from "./Data/AziendeMockData";
+
+import GraphedData from "./components/Graph";
+import aziendeIniziali from "./Data/AziendeMockData";
 import mainStyles from "./style/MainStyle";
 import modalStyles from "./style/ModalStyle";
-import { Azienda } from "./types/Azienda";
+import Azienda from "./types/Azienda";
 
 export default function Index() {
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -17,6 +20,7 @@ export default function Index() {
   const [filter, setFilter] = useState("");
   const [quotes, setQuotes] = useState<Record<string, any>>({});
   const [selectedAzienda, setSelectedAzienda] = useState<Azienda | null>(null);
+  const [historyData, setHistoryData] = useState<any>(null);
   const userId = "user-12345";
 
   const handleOpenModal = () => setIsModalVisible(true);
@@ -78,7 +82,6 @@ export default function Index() {
       <View style={mainStyles.userIdBox}>
         <Text style={mainStyles.userIdText}>ID Utente: {userId}</Text>
       </View>
-
       <TouchableOpacity style={mainStyles.addButton} onPress={handleOpenModal}>
         <Text style={mainStyles.addButtonText}>Aggiungi azienda</Text>
       </TouchableOpacity>
@@ -121,7 +124,7 @@ export default function Index() {
               {/* Dati correnti */}
               {selectedAzienda && quotes[selectedAzienda.ticker] ? (
                 <View style={modalStyles.modalSection}>
-                  <Text>Prezzo attuale: <Text style={mainStyles.bold}>{quotes[selectedAzienda.ticker].c}</Text></Text>
+                  <Text>Prezzo attuale: <Text style={mainStyles.bold}>{quotes[selectedAzienda.ticker].c.toFixed(2)}</Text></Text>
                   <Text>Massimo oggi: {quotes[selectedAzienda.ticker].h}</Text>
                   <Text>Minimo oggi: {quotes[selectedAzienda.ticker].l}</Text>
                   <Text>Apertura: {quotes[selectedAzienda.ticker].o}</Text>
@@ -131,6 +134,14 @@ export default function Index() {
               ) : (
                 <ActivityIndicator size="large" color="blue" />
               )}
+              <Text style={modalStyles.modalTitle} > Storico azione </Text>
+              {selectedAzienda && (
+                <History
+                  ticker={selectedAzienda.ticker}
+                  onData={setHistoryData}
+                />
+              )}
+              {historyData && <GraphedData historyData={historyData} days={7} />}
               <TouchableOpacity
                 style={modalStyles.closeButton}
                 onPress={() => setSelectedAzienda(null)}

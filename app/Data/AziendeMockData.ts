@@ -1,13 +1,11 @@
-import { Azienda } from "../types/Azienda";
-export const aziendeIniziali: Azienda[] = [
+import Azienda from "../types/Azienda";
+const aziendeIniziali: Azienda[] = [
   {
     id: "1",
     nome: "Apple",
     ticker: "AAPL",
     description: "Azienda tecnologica",
     azioniPossedute: 200,
-    prezzo: 28,
-    utili: 1000,
     isProfitable: true, 
   },
   {
@@ -16,8 +14,6 @@ export const aziendeIniziali: Azienda[] = [
     ticker: "MSFT",
     description: "Azienda di software",
     azioniPossedute: 200,
-    prezzo: 28,
-    utili: 2000,
     isProfitable: true,
   },
   {
@@ -26,8 +22,6 @@ export const aziendeIniziali: Azienda[] = [
     ticker: "GOOGL",
     description: "Azienda di ricerca e pubblicità",
     azioniPossedute: 200,
-    prezzo: 28,
-    utili: -3000,
     isProfitable: true,
   },
   {
@@ -36,8 +30,6 @@ export const aziendeIniziali: Azienda[] = [
     ticker: "AMZN",
     description: "Azienda di e-commerce",
     azioniPossedute: 200,
-    prezzo: 28,
-    utili: 4000,
     isProfitable: true,
   },
   {
@@ -46,8 +38,6 @@ export const aziendeIniziali: Azienda[] = [
     ticker: "TSLA",
     description: "Azienda automobilistica elettrica",
     azioniPossedute: 200,
-    prezzo: 28,
-    utili: 5000,
     isProfitable: true,
   },
   {
@@ -56,8 +46,6 @@ export const aziendeIniziali: Azienda[] = [
     ticker: "META",
     description: "Azienda di social media",
     azioniPossedute: 200,
-    prezzo: 28,
-    utili: -6000,
     isProfitable: true,
   },
   {
@@ -66,8 +54,6 @@ export const aziendeIniziali: Azienda[] = [
     ticker: "NFLX",
     description: "Azienda di streaming video",
     azioniPossedute: 200,
-    prezzo: 28,
-    utili: 7000,
     isProfitable: true,
   },
   {
@@ -76,8 +62,6 @@ export const aziendeIniziali: Azienda[] = [
     ticker: "SSNLF",
     description: "Azienda di elettronica",
     azioniPossedute: 200,
-    prezzo: 28,
-    utili: 8000,
     isProfitable: true,
   },
   {
@@ -86,8 +70,7 @@ export const aziendeIniziali: Azienda[] = [
     ticker: "SNE",
     description: "Azienda di elettronica e intrattenimento",
     azioniPossedute: 200,
-    prezzo: 28,
-    utili: 9000,
     isProfitable: true,
   },
 ];
+export default aziendeIniziali;

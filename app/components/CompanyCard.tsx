@@ -2,7 +2,7 @@ import React from "react";
 import { Text, TouchableOpacity, View } from "react-native";
 import companyCardStyles from "../style/CompanyCardStyle";
 import mainStyles from "../style/MainStyle";
-import { Azienda } from "../types/Azienda";
+import Azienda from "../types/Azienda";
 
 interface CompanyCardProps {
     azienda: Azienda;
@@ -36,10 +36,10 @@ const CompanyCard: React.FC<CompanyCardProps> = ({
                     <Text style={companyCardStyles.detail}>
                         Prezzo:{" "}
                         <Text style={mainStyles.bold}>
-                            {prezzoApi !== undefined
+                            {prezzoApi?.toFixed(2) !== undefined
                                 ? `${prezzoApi} `
-                                : azienda.prezzo !== undefined
-                                    ? azienda.prezzo
+                                : azienda.prezzo?.toFixed(2) !== undefined
+                                    ? azienda.prezzo?.toFixed(2)
                                     : "-"} $
                         </Text>
                     </Text>
@@ -54,11 +54,6 @@ const CompanyCard: React.FC<CompanyCardProps> = ({
                 </View>
             </View>
             <View style={companyCardStyles.cardRow}>
-                {azienda.utili !== undefined && (
-                    <Text style={[companyCardStyles.utili, { color: azienda.utili >= 0 ? 'green' : 'red' }]}>
-                        {azienda.utili >= 0 ? '+' : ''}{azienda.utili.toLocaleString()} €
-                    </Text>
-                )}
                 <Text style={[companyCardStyles.profitStatus, { color: azienda.isProfitable ? "#4CAF50" : "#f44336" }]}>
                     {azienda.isProfitable ? "📈" : "📉"}
                 </Text>

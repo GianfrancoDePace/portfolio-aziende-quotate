@@ -30,7 +30,8 @@ const modalStyles = StyleSheet.create({
   },
   modalSection: {
     marginBottom: 10,
-    alignItems: "flex-start",
+    alignItems: "center",
+    width: "100%"
   },
   closeButton: {
     marginTop: 16,

@@ -2,7 +2,7 @@ import React from "react";
 import { ActivityIndicator, Modal, ScrollView, Text, TouchableOpacity, View } from "react-native";
 import mainStyles from "../style/MainStyle";
 import modalStyles from "../style/ModalStyle";
-import { Azienda } from "../types/Azienda";
+import Azienda from "../types/Azienda";
 
 interface CompanyDetailsModalProps {
     visible: boolean;
