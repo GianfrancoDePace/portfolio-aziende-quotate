@@ -20,7 +20,6 @@ export default function Index() {
   const [quotes, setQuotes] = useState<Record<string, any>>({});
   const [selectedAzienda, setSelectedAzienda] = useState<Azienda | null>(null);
   const userId = "user-12345";
-  const [username, setUsername] = useState("Il tuo nome utente");
 
   const router = useRouter();
 
@@ -64,11 +63,6 @@ export default function Index() {
         if (saved) {
           setAziende(JSON.parse(saved));
         }
-        // Load username as well if it's stored
-        const savedUsername = await AsyncStorage.getItem('username');
-        if (savedUsername) {
-          setUsername(savedUsername);
-        }
       } catch (error) {
         console.error("Failed to load data from AsyncStorage", error);
       }
@@ -79,11 +73,10 @@ export default function Index() {
   useEffect(() => {
     try {
       AsyncStorage.setItem('aziende', JSON.stringify(aziende));
-      AsyncStorage.setItem('username', username); // Save username
     } catch (error) {
       console.error("Failed to save data to AsyncStorage", error);
     }
-  }, [aziende, username]); // Depend on username now too
+  }, [aziende]);
 
   const handleBuyShares = (ticker: string, quantity: number) => {
     setAziende(prevAziende =>

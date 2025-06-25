@@ -1,4 +1,3 @@
-// components/ProfileComponent.tsx
 import React from 'react';
 import { FlatList, Text, View } from 'react-native';
 import profileStyle from '../style/Profile';
@@ -16,19 +15,19 @@ const ProfileComponent: React.FC<ProfileComponentProps> = ({ userId, aziende, cu
         const categories: { [key: string]: number } = {};
 
         aziende.forEach(azienda => {
-            const category = azienda.sector || 'Uncategorized'; // Use 'category' field or default
-            categories[category] = (categories[category] || 0) + 1;
+            const sector = azienda.sector || 'Uncategorized'; // Use 'sector' field or default
+            categories[sector] = (categories[sector] || 0) + 1;
         });
 
-        return Object.keys(categories).map(category => ({
-            name: category,
-            count: categories[category],
+        return Object.keys(categories).map(sector => ({
+            name: sector,
+            count: categories[sector],
         }));
     };
 
     const companyCategories = getCompanyCategories();
 
-    // Function to calculate total portfolio balance
+    //Calcola il saldo 
     const calculatePortfolioBalance = () => {
         let totalBalance = 0;
         aziende.forEach(azienda => {

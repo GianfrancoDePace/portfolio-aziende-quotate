@@ -13,7 +13,8 @@ import { v4 as uuidv4 } from 'uuid';
 
 import modalStyles from '../style/ModalStyle';
 import addNewCompanyStyles from '../style/NewCompanyStyle';
-import Azienda from '../types/Azienda';
+import { Azienda } from '../types/Azienda';
+
 
 interface AggiuntaAziendaProps {
   visible: boolean;
@@ -26,20 +27,16 @@ const { height } = Dimensions.get('window');
 export default function AggiuntaAzienda({ visible, onClose, onAddAzienda }: AggiuntaAziendaProps) {
   const [nome, setNome] = useState('');
   const [ticker, setTicker] = useState('');
-  const [description, setDescription] = useState('');
+  const [sector, setSector] = useState('');
   const [azioniPossedute, setAzioniPossedute] = useState('');
-  const [prezzo, setPrezzo] = useState('');
-  const [utili, setUtili] = useState('');
   const [isProfitable, setIsProfitable] = useState(true);
   const [errors, setErrors] = useState<{ [key: string]: boolean }>({});
 
   const resetForm = () => {
     setNome('');
     setTicker('');
-    setDescription('');
+  setSector('');
     setAzioniPossedute('');
-    setPrezzo('');
-    setUtili('');
     setIsProfitable(true);
     setErrors({});
   };
@@ -48,7 +45,7 @@ export default function AggiuntaAzienda({ visible, onClose, onAddAzienda }: Aggi
     const newErrors: { [key: string]: boolean } = {};
     if (!nome) newErrors.nome = true;
     if (!ticker) newErrors.ticker = true;
-    if (!description) newErrors.description = true;
+    if (!sector) newErrors.sector = true;
     if (!azioniPossedute) newErrors.azioniPossedute = true;
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -60,7 +57,7 @@ export default function AggiuntaAzienda({ visible, onClose, onAddAzienda }: Aggi
         id: uuidv4(),
         nome,
         ticker,
-        description,
+        sector,
         azioniPossedute: parseInt(azioniPossedute),
         isProfitable,
       };
@@ -121,11 +118,11 @@ export default function AggiuntaAzienda({ visible, onClose, onAddAzienda }: Aggi
               <View style={addNewCompanyStyles.inputGroup}>
                 <Text style={addNewCompanyStyles.label}>Descrizione <Text style={addNewCompanyStyles.requiredIndicator}>*</Text></Text>
                 <TextInput
-                  style={[addNewCompanyStyles.input, addNewCompanyStyles.textArea, errors.description && addNewCompanyStyles.inputError]}
+                  style={[addNewCompanyStyles.input, addNewCompanyStyles.textArea, errors.sector && addNewCompanyStyles.inputError]}
                   placeholder="Descrivi l'attività dell'azienda..."
                   placeholderTextColor="#94A3B8"
-                  value={description}
-                  onChangeText={setDescription}
+                  value={sector}
+                  onChangeText={setSector}
                   multiline
                   numberOfLines={3}
                 />
