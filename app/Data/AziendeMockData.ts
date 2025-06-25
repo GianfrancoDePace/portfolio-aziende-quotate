@@ -1,4 +1,4 @@
-import Azienda from "../types/Azienda";
+import { Azienda } from "../types/Azienda";
 const aziendeIniziali: Azienda[] = [
   {
     id: "1",

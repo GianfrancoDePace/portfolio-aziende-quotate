@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { ScrollView, Text, View } from "react-native";
 import History from "../api/GET/History";
-import Azienda from "../types/Azienda";
+import { Azienda } from "../types/Azienda";
 
-export default function TestHistory({ aziende }: { aziende: Azienda[] }) { // TODO rinominare la funzione
+export default function HistoryDisplay({ aziende }: { aziende: Azienda[] }) {
   const [data, setData] = useState<Record<string, any>>({});
 
   return (

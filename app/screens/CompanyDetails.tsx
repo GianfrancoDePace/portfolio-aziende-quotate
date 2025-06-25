@@ -1,6 +1,6 @@
 import { Stack, useLocalSearchParams } from "expo-router";
 import React, { useState } from "react";
-import { ScrollView, Text } from "react-native";
+import { ActivityIndicator, ScrollView, Text, View } from "react-native";
 import History from "../api/GET/History";
 import GraphedData from "../components/Graph";
 import modalStyles from "../style/ModalStyle";
@@ -43,8 +43,9 @@ export default function CompanyDetails({ route }: any) {
 
     // Dati annuali per il secondo grafico
     const monthly = getMonthlyFirstClose(historyData);
+    const isLoading = !historyData;
 
-    return (
+     return (
         <ScrollView contentContainerStyle={{ padding: 16 }}>
             <Stack.Screen options={{ title: `${azienda.nome}` }} />
             <Text style={modalStyles.modalTitle}>Dettagli azienda</Text>
@@ -63,20 +64,28 @@ export default function CompanyDetails({ route }: any) {
                 ticker={azienda.ticker}
                 onData={setHistoryData}
             />
-            {historyData && <GraphedData historyData={historyData} days={30} />}
 
-            <Text style={modalStyles.modalTitle}>Andamento annuale (primo close del mese)</Text>
-            {historyData && (
-                <GraphedData
-                    historyData={{
-                        "Time Series (Daily)": {}, // non usato
-                        data: monthly.data,
-                        xLabels: monthly.xLabels,
-                    }}
-                    days={12}
-                    customData={monthly.data}
-                    customLabels={monthly.xLabels}
-                />
+            {isLoading ? (
+                <View style={{ marginVertical: 24, alignItems: "center" }}>
+                    <ActivityIndicator size="large" color="blue" />
+                    <Text style={{ marginTop: 8 }}>Caricamento grafico...</Text>
+                </View>
+            ) : (
+                <>
+                    <GraphedData historyData={historyData} days={30} />
+
+                    <Text style={modalStyles.modalTitle}>Andamento annuale (primo close del mese)</Text>
+                    <GraphedData
+                        historyData={{
+                            "Time Series (Daily)": {},
+                            data: monthly.data,
+                            xLabels: monthly.xLabels,
+                        }}
+                        days={12}
+                        customData={monthly.data}
+                        customLabels={monthly.xLabels}
+                    />
+                </>
             )}
         </ScrollView>
     );

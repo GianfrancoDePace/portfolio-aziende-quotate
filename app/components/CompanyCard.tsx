@@ -2,7 +2,7 @@ import React from "react";
 import { Text, TouchableOpacity, View } from "react-native";
 import companyCardStyles from "../style/CompanyCardStyle";
 import mainStyles from "../style/MainStyle";
-import Azienda from "../types/Azienda";
+import { Azienda } from "../types/Azienda";
 
 interface CompanyCardProps {
     azienda: Azienda;
@@ -11,6 +11,8 @@ interface CompanyCardProps {
     onPress: () => void;
     onToggleProfitability: () => void;
     onDelete: () => void;
+    onBuyShares: (ticker: string, quantity: number) => void;
+    onSellShares: (ticker: string, quantity: number) => void;
 }
 
 const CompanyCard: React.FC<CompanyCardProps> = ({
@@ -20,6 +22,8 @@ const CompanyCard: React.FC<CompanyCardProps> = ({
     onPress,
     onToggleProfitability,
     onDelete,
+    onBuyShares,
+    onSellShares,
 }) => (
     <TouchableOpacity onPress={onPress} style={companyCardStyles.card}>
         <View style={{ flex: 1 }}>
@@ -27,7 +31,7 @@ const CompanyCard: React.FC<CompanyCardProps> = ({
                 <Text style={companyCardStyles.nome}>{azienda.nome}</Text>
                 <Text style={companyCardStyles.ticker}>({azienda.ticker})</Text>
             </View>
-            <Text style={companyCardStyles.description}>{azienda.description}</Text>
+            <Text style={companyCardStyles.description}>{azienda.sector}</Text>
             <View style={companyCardStyles.cardRow}>
                 <Text style={companyCardStyles.detail}>
                     Azioni: <Text style={mainStyles.bold}>{azienda.azioniPossedute ?? '-'}</Text>
@@ -37,7 +41,7 @@ const CompanyCard: React.FC<CompanyCardProps> = ({
                         Prezzo:{" "}
                         <Text style={mainStyles.bold}>
                             {prezzoApi?.toFixed(2) !== undefined
-                                ? `${prezzoApi} `
+                                ? `${prezzoApi.toFixed(2)} `
                                 : azienda.prezzo?.toFixed(2) !== undefined
                                     ? azienda.prezzo?.toFixed(2)
                                     : "-"} $
@@ -71,8 +75,26 @@ const CompanyCard: React.FC<CompanyCardProps> = ({
                         {azienda.isProfitable ? "Segna in perdita" : "Segna profittevole"}
                     </Text>
                 </TouchableOpacity>
+
+                {/* Buy and Sell Buttons */}
                 <TouchableOpacity
-                    style={[companyCardStyles.deleteButton, { alignItems: "center", justifyContent: "center", minWidth: 48 }]}
+                    style={[companyCardStyles.buyButton, { alignItems: "center", justifyContent: "center", minWidth: 60, marginLeft: 8 }]}
+                    onPress={() => onBuyShares(azienda.ticker, 1)} 
+                    activeOpacity={0.8}
+                >
+                    <Text style={companyCardStyles.buyButtonText}>Compralo</Text>
+                </TouchableOpacity>
+                {azienda.azioniPossedute && azienda.azioniPossedute > 0 && (
+                    <TouchableOpacity
+                        style={[companyCardStyles.sellButton, { alignItems: "center", justifyContent: "center", minWidth: 60, marginLeft: 8 }]}
+                        onPress={() => onSellShares(azienda.ticker, 1)}
+                        activeOpacity={0.8}
+                    >
+                        <Text style={companyCardStyles.sellButtonText}>Vendi</Text>
+                    </TouchableOpacity>
+                )}
+                <TouchableOpacity
+                    style={[companyCardStyles.deleteButton, { alignItems: "center", justifyContent: "center", minWidth: 48, marginLeft: 8 }]}
                     onPress={onDelete}
                     activeOpacity={0.8}
                 >

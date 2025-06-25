@@ -1,16 +1,17 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Stack, useRouter } from "expo-router";
 import { useEffect, useState } from "react";
-import { ActivityIndicator, FlatList, Modal, ScrollView, Text, TouchableOpacity, View } from "react-native";
+import { ActivityIndicator, Alert, FlatList, Modal, ScrollView, Text, TouchableOpacity, View } from "react-native";
 import Quoted from "./api/GET/Quoted";
 import AggiuntaAzienda from "./components/AddNewCompany";
 import CompanyCard from "./components/CompanyCard";
 import Filter from "./components/filter";
+import ProfileComponent from "./components/Profilo";
 
 import aziendeIniziali from "./Data/AziendeMockData";
 import mainStyles from "./style/MainStyle";
 import modalStyles from "./style/ModalStyle";
-import Azienda from "./types/Azienda";
+import { Azienda } from "./types/Azienda";
 
 export default function Index() {
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -19,50 +20,112 @@ export default function Index() {
   const [quotes, setQuotes] = useState<Record<string, any>>({});
   const [selectedAzienda, setSelectedAzienda] = useState<Azienda | null>(null);
   const userId = "user-12345";
+  const [username, setUsername] = useState("Il tuo nome utente");
 
   const router = useRouter();
 
   const handleOpenModal = () => setIsModalVisible(true);
   const handleCloseModal = () => setIsModalVisible(false);
 
-  //Funzione per aggiungere una nuova azienda
+  // Function to add a new company
   const handleAddAzienda = (nuovaAzienda: Azienda) => {
-    setAziende([...aziende, nuovaAzienda]);
+    const aziendaToAdd = { ...nuovaAzienda, category: nuovaAzienda.sector || 'Generale' };
+    setAziende([...aziende, aziendaToAdd]);
     handleCloseModal();
   };
 
-  //Funzione per Eliminare un'azienda
+  // Function to delete a company
   const handleDeleteAzienda = (id: string) => {
     setAziende(aziende.filter(a => a.id !== id));
   };
-  //Marca un'azienda come profittevole o in perdita
+
+  // Marks a company as profitable or not
   const handleToggleProfitability = (id: string) => {
     setAziende(aziende.map(a =>
       a.id === id ? { ...a, isProfitable: !a.isProfitable } : a
     ));
   };
-  //Filtra le aziende in base al nome
+
+  // Filters companies by name
   const aziendeFiltrate = aziende.filter(a =>
     a.nome.toLowerCase().includes(filter.toLowerCase())
   );
 
-  // Callback per salvare i dati quotati
+  // Callback to save quoted data
   const handleQuoteData = (ticker: string, data: any) => {
     setQuotes(prev => ({ ...prev, [ticker]: data }));
   };
-  //useEffect per il salvataggio e caricamento delle aziende
+
+  // useEffect for saving and loading companies
   useEffect(() => {
     const loadAziende = async () => {
-      const saved = await AsyncStorage.getItem('aziende');
-      if (saved) setAziende(JSON.parse(saved));
+      try {
+        const saved = await AsyncStorage.getItem('aziende');
+        if (saved) {
+          setAziende(JSON.parse(saved));
+        }
+        // Load username as well if it's stored
+        const savedUsername = await AsyncStorage.getItem('username');
+        if (savedUsername) {
+          setUsername(savedUsername);
+        }
+      } catch (error) {
+        console.error("Failed to load data from AsyncStorage", error);
+      }
     };
     loadAziende();
   }, []);
 
   useEffect(() => {
-    AsyncStorage.setItem('aziende', JSON.stringify(aziende));
-  }, [aziende]);
+    try {
+      AsyncStorage.setItem('aziende', JSON.stringify(aziende));
+      AsyncStorage.setItem('username', username); // Save username
+    } catch (error) {
+      console.error("Failed to save data to AsyncStorage", error);
+    }
+  }, [aziende, username]); // Depend on username now too
 
+  const handleBuyShares = (ticker: string, quantity: number) => {
+    setAziende(prevAziende =>
+      prevAziende.map(company => {
+        if (company.ticker === ticker) {
+          const currentPrice = quotes[ticker]?.c || company.prezzo;
+          if (currentPrice === undefined) {
+            Alert.alert("Errore", "Prezzo dell'azione non disponibile per l'acquisto.");
+            return company;
+          }
+          const updatedShares = (company.azioniPossedute || 0) + quantity;
+          console.log(`Bought ${quantity} shares of ${ticker}. Total shares: ${updatedShares}`);
+          return { ...company, azioniPossedute: updatedShares };
+        }
+        return company;
+      })
+    );
+    Alert.alert("Successo", `Hai acquistato ${quantity} azione/i di ${ticker}!`);
+  };
+
+  const handleSellShares = (ticker: string, quantity: number) => {
+    setAziende(prevAziende =>
+      prevAziende.map(company => {
+        if (company.ticker === ticker) {
+          const currentShares = company.azioniPossedute || 0;
+          if (currentShares === 0) {
+            Alert.alert("Errore", `Non hai azioni di ${ticker} da vendere.`);
+            return company;
+          }
+          if (currentShares < quantity) {
+            Alert.alert("Errore", `Non puoi vendere più azioni di ${ticker} di quante ne possiedi (${currentShares}).`);
+            return company;
+          }
+          const updatedShares = currentShares - quantity;
+          console.log(`Sold ${quantity} shares of ${ticker}. Remaining shares: ${updatedShares}`);
+          return { ...company, azioniPossedute: updatedShares };
+        }
+        return company;
+      })
+    );
+    Alert.alert("Successo", `Hai venduto ${quantity} azione/i di ${ticker}!`);
+  };
 
   const renderItem = ({ item }: { item: Azienda }) => (
     <CompanyCard
@@ -72,15 +135,21 @@ export default function Index() {
       onPress={() => setSelectedAzienda(item)}
       onToggleProfitability={() => handleToggleProfitability(item.id)}
       onDelete={() => handleDeleteAzienda(item.id)}
+      onBuyShares={handleBuyShares}
+      onSellShares={handleSellShares}
     />
   );
 
   return (
     <View style={mainStyles.container}>
       <Stack.Screen options={{ title: "Portfolio" }} />
-      <View style={mainStyles.userIdBox}>
-        <Text style={mainStyles.userIdText}>ID Utente: {userId}</Text>
-      </View>
+
+      <ProfileComponent
+        userId={userId}
+        aziende={aziende}
+        currentQuotes={quotes}
+      />
+
       <TouchableOpacity style={mainStyles.addButton} onPress={handleOpenModal}>
         <Text style={mainStyles.addButtonText}>Aggiungi azienda</Text>
       </TouchableOpacity>
@@ -98,7 +167,7 @@ export default function Index() {
         onClose={handleCloseModal}
         onAddAzienda={handleAddAzienda}
       />
-      {/* Quote per ogni azienda */}
+      {/* Quote for each company */}
       {aziende.map(a => (
         <Quoted
           key={a.ticker}
@@ -107,7 +176,7 @@ export default function Index() {
         />
       ))}
 
-      {/* Modale dettagli */}
+      {/* Detail Modal */}
       <Modal
         visible={!!selectedAzienda}
         transparent
@@ -120,15 +189,15 @@ export default function Index() {
               <Text style={modalStyles.modalTitle}>
                 {selectedAzienda?.nome} ({selectedAzienda?.ticker})
               </Text>
-              {/* Dati correnti */}
+              {/* Current Data */}
               {selectedAzienda && quotes[selectedAzienda.ticker] ? (
                 <View style={modalStyles.modalSection}>
-                  <Text>Prezzo attuale: <Text style={mainStyles.bold}>{quotes[selectedAzienda.ticker].c.toFixed(2)}</Text></Text>
-                  <Text>Massimo oggi: {quotes[selectedAzienda.ticker].h}</Text>
-                  <Text>Minimo oggi: {quotes[selectedAzienda.ticker].l}</Text>
-                  <Text>Apertura: {quotes[selectedAzienda.ticker].o}</Text>
-                  <Text>Chiusura precedente: {quotes[selectedAzienda.ticker].pc}</Text>
-                  <Text>Variazione: {quotes[selectedAzienda.ticker].dp}</Text>
+                  <Text>Prezzo attuale: <Text style={mainStyles.bold}>{quotes[selectedAzienda.ticker].c?.toFixed(2) || 'N/A'}</Text></Text>
+                  <Text>Massimo oggi: {quotes[selectedAzienda.ticker].h || 'N/A'}</Text>
+                  <Text>Minimo oggi: {quotes[selectedAzienda.ticker].l || 'N/A'}</Text>
+                  <Text>Apertura: {quotes[selectedAzienda.ticker].o || 'N/A'}</Text>
+                  <Text>Chiusura precedente: {quotes[selectedAzienda.ticker].pc || 'N/A'}</Text>
+                  <Text>Variazione: {quotes[selectedAzienda.ticker].dp?.toFixed(2) || 'N/A'}</Text>
                 </View>
               ) : (
                 <ActivityIndicator size="large" color="blue" />
@@ -141,11 +210,11 @@ export default function Index() {
                       pathname: "/screens/CompanyDetails",
                       params: { azienda: JSON.stringify(selectedAzienda) }
                     });
-                    setSelectedAzienda(null); // chiudi il modale dopo la navigazione
+                    setSelectedAzienda(null);
                   }
                 }}
               >
-                <Text style={{ color: 'white', fontWeight: 'bold' }}>Vai ai dettagli</Text>
+                <Text style={{ color: 'white', fontWeight: 'bold' }}>Vai allo storico</Text>
               </TouchableOpacity>
               <TouchableOpacity
                 style={modalStyles.closeButton}

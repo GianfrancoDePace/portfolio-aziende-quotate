@@ -7,20 +7,20 @@ const companyCardStyles = StyleSheet.create({
     marginHorizontal: 12,
     marginVertical: 8,
     padding: 16,
-    shadowColor: "#000",
+    boxShadow: "#000",
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.08,
     shadowRadius: 4,
     elevation: 2,
   },
-  
+
   // Header section with company name and ticker
   cardHeader: {
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "flex-start",
     marginBottom: 8,
-  },      
+  },
   nome: {
     fontSize: 18,
     fontWeight: "bold",
@@ -37,7 +37,7 @@ const companyCardStyles = StyleSheet.create({
     borderRadius: 6,
     marginLeft: 8,
   },
-  
+
   // Description
   description: {
     color: "#666",
@@ -45,7 +45,7 @@ const companyCardStyles = StyleSheet.create({
     lineHeight: 20,
     marginBottom: 12,
   },
-  
+
   // Data rows for price, profits, etc.
   cardRow: {
     flexDirection: "row",
@@ -54,7 +54,7 @@ const companyCardStyles = StyleSheet.create({
     marginBottom: 6,
     paddingVertical: 2,
   },
-  
+
   // Info row for specific data pairs
   infoRow: {
     flexDirection: "row",
@@ -63,7 +63,7 @@ const companyCardStyles = StyleSheet.create({
     marginBottom: 6,
     paddingVertical: 2,
   },
-  
+
   // Text styles
   detail: {
     color: "#333",
@@ -79,7 +79,7 @@ const companyCardStyles = StyleSheet.create({
     fontWeight: "bold",
     fontSize: 14,
   },
-  
+
   // Price variation styles
   variazionePositiva: {
     color: "#10B981",
@@ -88,10 +88,10 @@ const companyCardStyles = StyleSheet.create({
   },
   variazioneNegativa: {
     color: "#EF4444",
-    fontWeight: "bold", 
+    fontWeight: "bold",
     fontSize: 14,
   },
-  
+
   // Actions section
   cardActions: {
     flexDirection: "row",
@@ -102,7 +102,7 @@ const companyCardStyles = StyleSheet.create({
     borderTopWidth: 1,
     borderTopColor: "#f0f0f0",
   },
-  
+
   // Profit toggle button
   profitButton: {
     paddingVertical: 8,
@@ -118,7 +118,7 @@ const companyCardStyles = StyleSheet.create({
     fontWeight: "bold",
     textAlign: "center",
   },
-  
+
   // Delete button
   deleteButton: {
     padding: 8,
@@ -133,7 +133,7 @@ const companyCardStyles = StyleSheet.create({
     fontSize: 20,
     color: "#EF4444",
   },
-  
+
   // Additional utility styles
   leftContent: {
     flex: 1,
@@ -145,6 +145,10 @@ const companyCardStyles = StyleSheet.create({
   centerContent: {
     alignItems: "center",
   },
+  buyButton: {},
+  buyButtonText: {},
+  sellButton: {},
+  sellButtonText: {},
 });
 
 export default companyCardStyles;

@@ -1,10 +1,9 @@
-interface Azienda {
+export interface Azienda {
   id: string;
   nome: string;
   ticker: string;
-  description: string;
+  sector: string;
   azioniPossedute?: number;
   prezzo?: number;
   isProfitable: boolean;
 }
-export default Azienda;
