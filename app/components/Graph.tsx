@@ -7,11 +7,14 @@ interface GraphProps {
   days?: number;
 }
 
-export default function GraphedData({ historyData, days = 7 }: GraphProps) {
+export default function GraphedData({ historyData, days = 7, customData, customLabels }: any) {
   let data: { value: number }[] = [];
   let xLabels: string[] = [];
 
-  if (
+  if (customData && customLabels) {
+    data = customData;
+    xLabels = customLabels
+  } else if (
     historyData &&
     historyData["Time Series (Daily)"] &&
     typeof historyData["Time Series (Daily)"] === "object"
@@ -23,7 +26,7 @@ export default function GraphedData({ historyData, days = 7 }: GraphProps) {
       .map(date => ({
         value: Number(daily[date]["4. close"])
       }))
-      .reverse(); // dal più vecchio al più recente
+      .reverse();
     xLabels = dates
       .slice(0, days)
       .map(date => {
@@ -32,7 +35,7 @@ export default function GraphedData({ historyData, days = 7 }: GraphProps) {
       })
       .reverse();
   }
-
+  //fallback se dovesse fallire la chiamata api a seguito delle troppe chiamate
   if (!data.length) {
     data = [
       { value: 100 },
@@ -51,8 +54,9 @@ export default function GraphedData({ historyData, days = 7 }: GraphProps) {
       <LineChart
         data={data}
         xAxisLabelTexts={xLabels}
+        maxValue={1000}
         animateOnDataChange
-        yAxisOffset={90}
+        yAxisOffset={40}
         showValuesAsDataPointsText
         textShiftY={-8}
         textShiftX={-10}

@@ -1,14 +1,12 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { Stack } from "expo-router";
+import { Stack, useRouter } from "expo-router";
 import { useEffect, useState } from "react";
 import { ActivityIndicator, FlatList, Modal, ScrollView, Text, TouchableOpacity, View } from "react-native";
-import History from "./api/GET/History";
 import Quoted from "./api/GET/Quoted";
 import AggiuntaAzienda from "./components/AddNewCompany";
 import CompanyCard from "./components/CompanyCard";
 import Filter from "./components/filter";
 
-import GraphedData from "./components/Graph";
 import aziendeIniziali from "./Data/AziendeMockData";
 import mainStyles from "./style/MainStyle";
 import modalStyles from "./style/ModalStyle";
@@ -20,8 +18,9 @@ export default function Index() {
   const [filter, setFilter] = useState("");
   const [quotes, setQuotes] = useState<Record<string, any>>({});
   const [selectedAzienda, setSelectedAzienda] = useState<Azienda | null>(null);
-  const [historyData, setHistoryData] = useState<any>(null);
   const userId = "user-12345";
+
+  const router = useRouter();
 
   const handleOpenModal = () => setIsModalVisible(true);
   const handleCloseModal = () => setIsModalVisible(false);
@@ -134,14 +133,20 @@ export default function Index() {
               ) : (
                 <ActivityIndicator size="large" color="blue" />
               )}
-              <Text style={modalStyles.modalTitle} > Storico azioni </Text>
-              {selectedAzienda && (
-                <History
-                  ticker={selectedAzienda.ticker}
-                  onData={setHistoryData}
-                />
-              )}
-              {historyData && <GraphedData historyData={historyData} days={7} />}
+              <TouchableOpacity
+                style={[modalStyles.closeButton, { backgroundColor: "#2563eb", marginBottom: 10 }]}
+                onPress={() => {
+                  if (selectedAzienda) {
+                    router.push({
+                      pathname: "/screens/CompanyDetails",
+                      params: { azienda: JSON.stringify(selectedAzienda) }
+                    });
+                    setSelectedAzienda(null); // chiudi il modale dopo la navigazione
+                  }
+                }}
+              >
+                <Text style={{ color: 'white', fontWeight: 'bold' }}>Vai ai dettagli</Text>
+              </TouchableOpacity>
               <TouchableOpacity
                 style={modalStyles.closeButton}
                 onPress={() => setSelectedAzienda(null)}
