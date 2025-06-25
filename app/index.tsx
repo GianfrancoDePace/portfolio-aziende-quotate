@@ -2,12 +2,12 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Stack, useRouter } from "expo-router";
 import { useEffect, useState } from "react";
 import { ActivityIndicator, Alert, FlatList, Modal, ScrollView, Text, TouchableOpacity, View } from "react-native";
-import Quoted from "./api/GET/Quoted";
 import AggiuntaAzienda from "./components/AddNewCompany";
 import CompanyCard from "./components/CompanyCard";
 import Filter from "./components/filter";
 import ProfileComponent from "./components/Profilo";
 
+import QuotesData from "./api/GET/Quotes";
 import aziendeIniziali from "./Data/AziendeMockData";
 import mainStyles from "./style/MainStyle";
 import modalStyles from "./style/ModalStyle";
@@ -162,7 +162,7 @@ export default function Index() {
       />
       {/* Quote for each company */}
       {aziende.map(a => (
-        <Quoted
+        <QuotesData
           key={a.ticker}
           ticker={a.ticker}
           onData={data => handleQuoteData(a.ticker, data)}
@@ -201,7 +201,10 @@ export default function Index() {
                   if (selectedAzienda) {
                     router.push({
                       pathname: "/screens/CompanyDetails",
-                      params: { azienda: JSON.stringify(selectedAzienda) }
+                      params: {
+                        azienda: JSON.stringify(selectedAzienda),
+                        quotes: JSON.stringify(quotes), 
+                      }
                     });
                     setSelectedAzienda(null);
                   }

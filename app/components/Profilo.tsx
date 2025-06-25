@@ -10,15 +10,12 @@ interface ProfileComponentProps {
 }
 
 const ProfileComponent: React.FC<ProfileComponentProps> = ({ userId, aziende, currentQuotes }) => {
-
     const getCompanyCategories = () => {
         const categories: { [key: string]: number } = {};
-
         aziende.forEach(azienda => {
             const sector = azienda.sector || 'Uncategorized'; // Use 'sector' field or default
             categories[sector] = (categories[sector] || 0) + 1;
         });
-
         return Object.keys(categories).map(sector => ({
             name: sector,
             count: categories[sector],
@@ -48,10 +45,6 @@ const ProfileComponent: React.FC<ProfileComponentProps> = ({ userId, aziende, cu
                 <Text style={profileStyle.userInfoText}>
                     **Saldo Portfolio:** <Text style={profileStyle.balanceText}>{portfolioBalance.toFixed(2)} $</Text>
                 </Text>
-            </View>
-
-            <View style={profileStyle.categorySection}>
-                <Text style={profileStyle.sectionTitle}>Aziende per Categoria</Text>
                 {companyCategories.length > 0 ? (
                     <FlatList
                         data={companyCategories}

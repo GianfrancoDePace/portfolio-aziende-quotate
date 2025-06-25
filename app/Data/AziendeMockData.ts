@@ -5,7 +5,7 @@ const aziendeIniziali: Azienda[] = [
     nome: "Apple",
     ticker: "AAPL",
     sector: "Azienda tecnologica",
-    azioniPossedute: 200,
+    azioniPossedute: 5,
     isProfitable: true, 
   },
   {
@@ -13,7 +13,7 @@ const aziendeIniziali: Azienda[] = [
     nome: "Microsoft",
     ticker: "MSFT",
     sector: "Azienda di software",
-    azioniPossedute: 200,
+    azioniPossedute: 8,
     isProfitable: true,
   },
   {
@@ -21,7 +21,7 @@ const aziendeIniziali: Azienda[] = [
     nome: "Alphabet",
     ticker: "GOOGL",
     sector: "Azienda di ricerca e pubblicità",
-    azioniPossedute: 200,
+    azioniPossedute: 4,
     isProfitable: true,
   },
   {
@@ -29,7 +29,7 @@ const aziendeIniziali: Azienda[] = [
     nome: "Amazon.com",
     ticker: "AMZN",
     sector: "Azienda di e-commerce",
-    azioniPossedute: 200,
+    azioniPossedute: 10,
     isProfitable: true,
   },
   {
@@ -37,7 +37,7 @@ const aziendeIniziali: Azienda[] = [
     nome: "Tesla",
     ticker: "TSLA",
     sector: "Azienda automobilistica elettrica",
-    azioniPossedute: 200,
+    azioniPossedute: 3,
     isProfitable: true,
   },
   {
@@ -45,7 +45,7 @@ const aziendeIniziali: Azienda[] = [
     nome: "Meta (Facebook)",
     ticker: "META",
     sector: "Azienda di social media",
-    azioniPossedute: 200,
+    azioniPossedute: 1,
     isProfitable: true,
   },
   {
@@ -53,23 +53,7 @@ const aziendeIniziali: Azienda[] = [
     nome: "Netflix",
     ticker: "NFLX",
     sector: "Azienda di streaming video",
-    azioniPossedute: 200,
-    isProfitable: true,
-  },
-  {
-    id: "8",
-    nome: "Samsung",
-    ticker: "SSNLF",
-    sector: "Azienda di elettronica",
-    azioniPossedute: 200,
-    isProfitable: true,
-  },
-  {
-    id: "9",
-    nome: "Sony",
-    ticker: "SNE",
-    sector: "Azienda di elettronica e intrattenimento",
-    azioniPossedute: 200,
+    azioniPossedute: 2,
     isProfitable: true,
   },
 ];

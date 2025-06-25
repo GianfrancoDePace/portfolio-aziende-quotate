@@ -13,7 +13,7 @@ function getMonthlyFirstClose(historyData: any) {
     ) return { data: [], xLabels: [] };
 
     const daily = historyData["Time Series (Daily)"];
-    const dates = Object.keys(daily).sort(); // dal più vecchio al più recente
+    const dates = Object.keys(daily).sort();
     const months: Record<string, { date: string; close: number }> = {};
 
     dates.forEach(date => {
@@ -39,13 +39,14 @@ function getMonthlyFirstClose(historyData: any) {
 export default function CompanyDetails({ route }: any) {
     const params = useLocalSearchParams();
     const azienda = params.azienda ? JSON.parse(params.azienda as string) : null;
+    const quotes = params.quotes ? JSON.parse(params.quotes as string) : {}
     const [historyData, setHistoryData] = useState<any>(null);
 
     // Dati annuali per il secondo grafico
     const monthly = getMonthlyFirstClose(historyData);
     const isLoading = !historyData;
 
-     return (
+    return (
         <ScrollView contentContainerStyle={{ padding: 16 }}>
             <Stack.Screen options={{ title: `${azienda.nome}` }} />
             <Text style={modalStyles.modalTitle}>Dettagli azienda</Text>
@@ -54,7 +55,11 @@ export default function CompanyDetails({ route }: any) {
             </Text>
             <Text style={{ marginBottom: 8 }}>{azienda.description}</Text>
             <Text>Azioni possedute: <Text style={{ fontWeight: "bold" }}>{azienda.azioniPossedute ?? '-'}</Text></Text>
-            <Text>Prezzo di acquisto: {azienda.prezzo ? `${azienda.prezzo} $` : '-'}</Text>
+            <Text>
+                Prezzo attuale: {quotes && quotes[azienda.ticker]?.c
+                    ? `${quotes[azienda.ticker].c.toFixed(2)} $`
+                    : '-'}
+            </Text>
             <Text style={{ marginBottom: 16 }}>
                 Stato: {azienda.isProfitable ? "Profittevole 📈" : "In perdita 📉"}
             </Text>
