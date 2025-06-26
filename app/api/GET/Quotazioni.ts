@@ -4,7 +4,7 @@ import { useEffect } from 'react';
     const API_URL = 'https://finnhub.io/api/v1/quote?symbol=';
     const TOKEN = process.env.EXPO_PUBLIC_FINNHUB_API_KEY; 
 
-    export default function QuotesData({ ticker, onData }: { ticker: string, onData: (data: any) => void }) {
+    export default function Qutotazioni({ ticker, onData }: { ticker: string, onData: (data: any) => void }) {
         useEffect(() => {
             const fetchData = async () => {
                 try {

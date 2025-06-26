@@ -1,7 +1,7 @@
 import { Stack, useLocalSearchParams } from "expo-router";
 import React, { useState } from "react";
 import { ActivityIndicator, ScrollView, Text, View } from "react-native";
-import History from "../api/GET/History";
+import History from "../api/GET/Storico";
 import GraphedData from "../components/Graph";
 import modalStyles from "../style/ModalStyle";
 
@@ -17,7 +17,7 @@ function getMonthlyFirstClose(historyData: any) {
     const months: Record<string, { date: string; close: number }> = {};
 
     dates.forEach(date => {
-        const [year, month] = date.split("-"); // "2025-06-01" -> ["2025","06","01"]
+        const [year, month] = date.split("-");
         const key = `${year}-${month}`;
         if (!months[key]) {
             months[key] = { date, close: Number(daily[date]["4. close"]) };
@@ -73,7 +73,7 @@ export default function CompanyDetails({ route }: any) {
             {isLoading ? (
                 <View style={{ marginVertical: 24, alignItems: "center" }}>
                     <ActivityIndicator size="large" color="blue" />
-                    <Text style={{ marginTop: 8 }}>Caricamento grafico...</Text>
+                    <Text style={{ marginTop: 8 }}>Caricamento grafici...</Text>
                 </View>
             ) : (
                 <>

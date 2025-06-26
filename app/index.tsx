@@ -1,16 +1,15 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Stack, useRouter } from "expo-router";
 import { useEffect, useState } from "react";
-import { ActivityIndicator, Alert, FlatList, Modal, ScrollView, Text, TouchableOpacity, View } from "react-native";
+import { Alert, FlatList, Text, TouchableOpacity, View } from "react-native";
+import QuotesData from "./api/GET/Quotazioni";
 import AggiuntaAzienda from "./components/AddNewCompany";
 import CompanyCard from "./components/CompanyCard";
+import CompanyDetailsModal from "./components/CompanyDetails";
 import Filter from "./components/filter";
-import ProfileComponent from "./components/Profilo";
-
-import QuotesData from "./api/GET/Quotes";
 import aziendeIniziali from "./Data/AziendeMockData";
+import ProfileComponent from "./screens/Profilo";
 import mainStyles from "./style/MainStyle";
-import modalStyles from "./style/ModalStyle";
 import { Azienda } from "./types/Azienda";
 
 export default function Index() {
@@ -77,7 +76,7 @@ export default function Index() {
       console.error("Failed to save data to AsyncStorage", error);
     }
   }, [aziende]);
-
+  //Funzione per gestire l'acquisto di azioni
   const handleBuyShares = (ticker: string, quantity: number) => {
     setAziende(prevAziende =>
       prevAziende.map(company => {
@@ -96,7 +95,7 @@ export default function Index() {
     );
     Alert.alert("Successo", `Hai acquistato ${quantity} azione/i di ${ticker}!`);
   };
-
+  //Funzione per gestire la vendita di azioni
   const handleSellShares = (ticker: string, quantity: number) => {
     setAziende(prevAziende =>
       prevAziende.map(company => {
@@ -170,58 +169,24 @@ export default function Index() {
       ))}
 
       {/* Detail Modal */}
-      <Modal
+      <CompanyDetailsModal
         visible={!!selectedAzienda}
-        transparent
-        animationType="slide"
-        onRequestClose={() => setSelectedAzienda(null)}
-      >
-        <View style={modalStyles.modalOverlay}>
-          <View style={modalStyles.modalView}>
-            <ScrollView>
-              <Text style={modalStyles.modalTitle}>
-                {selectedAzienda?.nome} ({selectedAzienda?.ticker})
-              </Text>
-              {/* Current Data */}
-              {selectedAzienda && quotes[selectedAzienda.ticker] ? (
-                <View style={modalStyles.modalSection}>
-                  <Text>Prezzo attuale: <Text style={mainStyles.bold}>{quotes[selectedAzienda.ticker].c?.toFixed(2) || 'N/A'}</Text></Text>
-                  <Text>Massimo oggi: {quotes[selectedAzienda.ticker].h || 'N/A'}</Text>
-                  <Text>Minimo oggi: {quotes[selectedAzienda.ticker].l || 'N/A'}</Text>
-                  <Text>Apertura: {quotes[selectedAzienda.ticker].o || 'N/A'}</Text>
-                  <Text>Chiusura precedente: {quotes[selectedAzienda.ticker].pc || 'N/A'}</Text>
-                  <Text>Variazione: {quotes[selectedAzienda.ticker].dp?.toFixed(2) || 'N/A'}</Text>
-                </View>
-              ) : (
-                <ActivityIndicator size="large" color="blue" />
-              )}
-              <TouchableOpacity
-                style={[modalStyles.closeButton, { backgroundColor: "#2563eb", marginBottom: 10 }]}
-                onPress={() => {
-                  if (selectedAzienda) {
-                    router.push({
-                      pathname: "/screens/CompanyDetails",
-                      params: {
-                        azienda: JSON.stringify(selectedAzienda),
-                        quotes: JSON.stringify(quotes), 
-                      }
-                    });
-                    setSelectedAzienda(null);
-                  }
-                }}
-              >
-                <Text style={{ color: 'white', fontWeight: 'bold' }}>Vai allo storico</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={modalStyles.closeButton}
-                onPress={() => setSelectedAzienda(null)}
-              >
-                <Text style={{ color: 'white', fontWeight: 'bold' }}>Chiudi</Text>
-              </TouchableOpacity>
-            </ScrollView>
-          </View>
-        </View>
-      </Modal>
+        azienda={selectedAzienda}
+        quotes={quotes}
+        onClose={() => setSelectedAzienda(null)}
+        onGoToHistory={() => {
+          if (selectedAzienda) {
+            router.push({
+              pathname: "/screens/CompanyDetails",
+              params: {
+                azienda: JSON.stringify(selectedAzienda),
+                quotes: JSON.stringify(quotes),
+              }
+            });
+            setSelectedAzienda(null);
+          }
+        }}
+      />
     </View>
   );
 }

@@ -3,14 +3,13 @@ import axios from "axios";
 const API_URL = "https://finnhub.io/api/v1/stock/symbol?exchange=US";
 const TOKEN = process.env.EXPO_PUBLIC_FINNHUB_API_KEY;
 
-export interface UsSymbol {
+export interface Symbol {
   symbol: string;
   description: string;
 }
-export async function fetchUsSymbols(): Promise<UsSymbol[]> {
+export async function fetchSymbols(): Promise<Symbol[]> {
   try {
     const response = await axios.get(`${API_URL}&token=${TOKEN}`);
-    // La risposta è un array di oggetti con proprietà "symbol"
     return response.data.map((item: any) => ({
       symbol: item.symbol.toUpperCase(),
       description: item.description}));
