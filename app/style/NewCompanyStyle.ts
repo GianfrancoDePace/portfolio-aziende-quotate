@@ -54,7 +54,6 @@ const addNewCompanyStyles = StyleSheet.create({
     paddingHorizontal: 12,
     fontSize: 15,
     color: "#1e293b",
-   
   },
   buttonContainer: {
     width: "100%",
@@ -69,10 +68,7 @@ const addNewCompanyStyles = StyleSheet.create({
     borderRadius: 14,
     justifyContent: "center",
     alignItems: "center",
-    shadowColor: "#2563eb",
-    shadowOffset: { width: 0, height: 3 },
-    shadowOpacity: 0.18,
-    shadowRadius: 8,
+    boxShadow: "0px 3px 8px rgba(37,99,235,0.1)",
     elevation: 6,
     width: "92%",
     maxWidth: 340,

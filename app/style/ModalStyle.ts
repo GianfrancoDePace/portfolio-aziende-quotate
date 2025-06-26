@@ -3,22 +3,19 @@ import { StyleSheet } from "react-native";
 const modalStyles = StyleSheet.create({
   modalOverlay: {
     flex: 1,
-    backgroundColor: "rgba(30, 41, 59, 0.35)", 
+    backgroundColor: "rgba(30, 41, 59, 0.35)",
     justifyContent: "center",
     alignItems: "center",
   },
   modalView: {
-    backgroundColor: "#f8fafc", 
+    backgroundColor: "#f8fafc",
     padding: 28,
     borderRadius: 20,
     minWidth: 320,
     maxWidth: 420,
     width: "92%",
     alignItems: "stretch",
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.1,
-    shadowRadius: 16,
+    boxShadow: "0px 4px 16px rgba(0,0,0,0.1)",
     elevation: 30,
     maxHeight: "85%",
   },
@@ -27,7 +24,7 @@ const modalStyles = StyleSheet.create({
     fontSize: 22,
     marginBottom: 18,
     textAlign: "center",
-    color: "#1e293b", 
+    color: "#1e293b",
     letterSpacing: 0.5,
   },
   modalSection: {
@@ -38,7 +35,7 @@ const modalStyles = StyleSheet.create({
     borderRadius: 10,
     padding: 14,
   },
-modalButton: {
+  modalButton: {
     backgroundColor: "#2563eb",
     paddingVertical: 14,
     paddingHorizontal: 0,
@@ -46,13 +43,10 @@ modalButton: {
     alignItems: "center",
     marginHorizontal: 4,
     marginTop: 0,
-    shadowColor: "#2563eb",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
+    boxShadow: "0px 2px 4px rgba(37,99,235,0.1)",
     elevation: 2,
     minWidth: 120,
-    flexGrow: 1, 
+    flexGrow: 1,
   },
   modalButtonRed: {
     backgroundColor: "#ef4444",
@@ -67,7 +61,7 @@ modalButton: {
   buttonRow: {
     flexDirection: "row",
     justifyContent: "space-between",
-    alignItems: "center", 
+    alignItems: "center",
     gap: 12,
     marginTop: 24,
     width: "100%",
