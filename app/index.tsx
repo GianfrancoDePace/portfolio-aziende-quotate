@@ -5,10 +5,10 @@ import { Alert, FlatList, Text, TouchableOpacity, View } from "react-native";
 import QuotesData from "./api/GET/Quotazioni";
 import AggiuntaAzienda from "./components/AddNewCompany";
 import CompanyCard from "./components/CompanyCard";
-import CompanyDetailsModal from "./components/CompanyDetails";
+import CompanyDetailsModal from "./components/CompanyDetailModal";
 import Filter from "./components/Filter";
+import ProfileComponent from "./components/Profilo";
 import aziendeIniziali from "./Data/AziendeMockData";
-import ProfileComponent from "./screens/Profilo";
 import mainStyles from "./style/MainStyle";
 import { Azienda } from "./types/Azienda";
 
@@ -76,6 +76,7 @@ export default function Index() {
       console.error("Failed to save data to AsyncStorage", error);
     }
   }, [aziende]);
+
   //Funzione per gestire l'acquisto di azioni
   const handleBuyShares = (ticker: string, quantity: number) => {
     setAziende(prevAziende =>
@@ -95,6 +96,7 @@ export default function Index() {
     );
     Alert.alert("Successo", `Hai acquistato ${quantity} azione/i di ${ticker}!`);
   };
+
   //Funzione per gestire la vendita di azioni
   const handleSellShares = (ticker: string, quantity: number) => {
     setAziende(prevAziende =>
@@ -116,7 +118,7 @@ export default function Index() {
         return company;
       })
     );
-    Alert.alert("Successo", `Hai venduto ${quantity} azione/i di ${ticker}!`);
+    Alert.alert("Successo", `Hai venduto ${quantity} azione/i di ${ticker}!`); //funziona solo su mobile
   };
 
   const renderItem = ({ item }: { item: Azienda }) => (
@@ -134,7 +136,9 @@ export default function Index() {
 
   return (
     <View style={mainStyles.container}>
-      <Stack.Screen options={{ title: "Portfolio" }} />
+      <Stack.Screen options={{
+        title: "Portfolio",
+      }} />
 
       <ProfileComponent
         userId={userId}

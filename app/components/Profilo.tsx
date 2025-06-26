@@ -1,6 +1,6 @@
 import React from 'react';
 import { Text, View } from 'react-native';
-import profileStyle from '../style/Profile';
+import profileStyle from '../style/Profilo';
 import { Azienda } from '../types/Azienda';
 
 interface ProfileComponentProps {
@@ -25,7 +25,8 @@ const ProfileComponent: React.FC<ProfileComponentProps> = ({ userId, aziende, cu
 
     return (
         <View style={profileStyle.profileContainer}>
-            <Text style={profileStyle.profileTitle}>Profilo Utente</Text>
+            <Text style={profileStyle.mainTitle}>Gestisci i tuoi investimenti</Text>
+            <Text style={profileStyle.profileTitle}>Portfolio Overview</Text>
             <View style={profileStyle.userInfo}>
                 <Text style={profileStyle.userInfoText}>**ID Utente:** {userId}</Text>
                 <Text style={profileStyle.userInfoText}>

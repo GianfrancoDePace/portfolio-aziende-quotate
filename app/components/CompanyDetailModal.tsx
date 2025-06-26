@@ -1,6 +1,5 @@
 import React from "react";
 import { ActivityIndicator, Modal, ScrollView, Text, TouchableOpacity, View } from "react-native";
-import mainStyles from "../style/MainStyle";
 import modalStyles from "../style/ModalStyle";
 import { Azienda } from "../types/Azienda";
 
@@ -33,31 +32,31 @@ const CompanyDetailsModal: React.FC<CompanyDetailsModalProps> = ({
                     </Text>
                     {azienda && quotes[azienda.ticker] ? (
                         <View style={modalStyles.modalSection}>
-                            <Text>Prezzo attuale: <Text style={mainStyles.bold}>{quotes[azienda.ticker].c}$</Text></Text> {/*prezzi correnti*/}
-                            <Text>Massimo oggi: {quotes[azienda.ticker].h}$</Text> {/*prezzo massimo*/}
-                            <Text>Minimo oggi: {quotes[azienda.ticker].l}$</Text>{/*prezzo minimo*/}
-                            <Text>Apertura: {quotes[azienda.ticker].o}$</Text> {/*prezzo all'apertura*/}
-                            <Text>Chiusura precedente: {quotes[azienda.ticker].pc}$</Text>  {/*prezzo chiusura*/}
-                            <Text>Variazione: {quotes[azienda.ticker].dp}%</Text> {/*variazione prezzo %*/}
+                            <Text>Prezzo attuale: {quotes[azienda.ticker].c}$</Text>
+                            <Text>Massimo oggi: {quotes[azienda.ticker].h}$</Text>
+                            <Text>Minimo oggi: {quotes[azienda.ticker].l}$</Text>
+                            <Text>Apertura: {quotes[azienda.ticker].o}$</Text>
+                            <Text>Chiusura precedente: {quotes[azienda.ticker].pc}$</Text>
+                            <Text>Variazione: {quotes[azienda.ticker].dp}%</Text>
                         </View>
                     ) : (
                         <ActivityIndicator size="large" color="blue" />
                     )}
 
-                    <View style={{ flexDirection: "row", justifyContent: "space-between", marginTop: 20 }}>
+                    <View style={modalStyles.buttonRow}>
                         {onGoToHistory && (
                             <TouchableOpacity
-                                style={[modalStyles.closeButton, { backgroundColor: "#2563eb", flex: 1, marginRight: 8 }]}
+                                style={[modalStyles.modalButton]}
                                 onPress={onGoToHistory}
                             >
-                                <Text style={{ color: 'white', fontWeight: 'bold', textAlign: "center" }}>Vai allo storico</Text>
+                                <Text style={modalStyles.modalButtonText}>Vai allo storico</Text>
                             </TouchableOpacity>
                         )}
                         <TouchableOpacity
-                            style={[modalStyles.closeButton, { marginLeft: onGoToHistory ? 8 : 0 }]}
+                            style={[modalStyles.modalButton, modalStyles.modalButtonRed]}
                             onPress={onClose}
                         >
-                            <Text style={{ color: 'white', fontWeight: 'bold', textAlign: "center" }}>Chiudi</Text>
+                            <Text style={modalStyles.modalButtonText}>Chiudi</Text>
                         </TouchableOpacity>
                     </View>
                 </ScrollView>

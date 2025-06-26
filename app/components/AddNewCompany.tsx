@@ -114,7 +114,7 @@ export default function AggiuntaAzienda({ visible, onClose, onAddAzienda }: Aggi
                 keyboardType="numeric"
               />
             </View>
-            <View style={addNewCompanyStyles.buttonContainer}>
+            <View style={addNewCompanyStyles.buttonRow}>
               <TouchableOpacity
                 style={addNewCompanyStyles.primaryButton}
                 onPress={handleAddCompany}

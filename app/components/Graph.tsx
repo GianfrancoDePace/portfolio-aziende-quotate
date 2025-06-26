@@ -63,7 +63,7 @@ export default function GraphedData({ historyData, days = 7, customData, customL
         textFontSize={13}
         hideRules
         showVerticalLines
-        verticalLinesColor='rgb(14,164,164,0.2'
+        // verticalLinesColor='rgb(14,164,164,0.2)'
       />
     </View>
   );
