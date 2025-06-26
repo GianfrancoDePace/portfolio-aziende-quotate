@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { fetchSymbols, Symbol } from "../api/GET/Symbols";
+import { fetchSymbols, Symbol } from "../api/GET/StockSymbols";
 import { Azienda } from "../types/Azienda";
 
 export function useAggiuntaAziendaForm(visible: boolean) {

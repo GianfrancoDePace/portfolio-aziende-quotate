@@ -1,6 +1,6 @@
 import React from "react";
 import { Text, TouchableOpacity, View } from "react-native";
-import { Symbol } from "../api/GET/Symbols";
+import { Symbol } from "../api/GET/StockSymbols";
 
 interface TickerSuggestionsProps {
   suggestions: Symbol[];
