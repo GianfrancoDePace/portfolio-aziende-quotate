@@ -4,7 +4,7 @@ const profileStyle = StyleSheet.create({
   profileContainer: {
     marginHorizontal: 20,
     marginVertical: 16,
-    backgroundColor: 'rgba(255, 255, 255, 0.05)',
+    backgroundColor: 'rgb(249, 249, 249)',
     borderRadius: 16,
     padding: 16,
     borderWidth: 1,
@@ -14,13 +14,13 @@ const profileStyle = StyleSheet.create({
     fontSize: 22,
     fontWeight: "bold",
     marginBottom: 15,
-    color: "white",
+    color: "black",
     textAlign: "center",
   },
   mainTitle: {
     fontSize: 28,
     fontWeight: "bold",
-    color: "#FFFFFF",
+    color: "black",
     marginBottom: 4,
   },
   userInfo: {
