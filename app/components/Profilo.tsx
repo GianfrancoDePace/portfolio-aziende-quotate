@@ -25,8 +25,7 @@ const ProfileComponent: React.FC<ProfileComponentProps> = ({ userId, aziende, cu
 
     return (
         <View style={profileStyle.profileContainer}>
-            <Text style={profileStyle.mainTitle}>Gestisci i tuoi investimenti</Text>
-            <Text style={profileStyle.profileTitle}>Portfolio Overview</Text>
+            <Text style={profileStyle.mainTitle}>Portfolio Overview</Text>
             <View style={profileStyle.userInfo}>
                 <Text style={profileStyle.userInfoText}>**ID Utente:** {userId}</Text>
                 <Text style={profileStyle.userInfoText}>

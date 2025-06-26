@@ -26,7 +26,7 @@ const addNewCompanyStyles = StyleSheet.create({
     backgroundColor: "#e0f2fe",
     justifyContent: "center",
     alignItems: "center",
-    marginBottom: 16, 
+    marginBottom: 16,
   },
   iconText: {
     fontSize: 32,
@@ -54,6 +54,7 @@ const addNewCompanyStyles = StyleSheet.create({
     paddingHorizontal: 12,
     fontSize: 15,
     color: "#1e293b",
+   
   },
   buttonContainer: {
     width: "100%",
@@ -76,7 +77,7 @@ const addNewCompanyStyles = StyleSheet.create({
     width: "92%",
     maxWidth: 340,
     alignSelf: "center",
-    flexDirection:"column"
+    flexDirection: "column",
   },
   primaryButtonText: {
     color: "#fff",

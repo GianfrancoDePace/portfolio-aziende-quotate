@@ -3,12 +3,12 @@ import { StyleSheet } from "react-native";
 const modalStyles = StyleSheet.create({
   modalOverlay: {
     flex: 1,
-    backgroundColor: "rgba(30, 41, 59, 0.35)", // blu scuro trasparente
+    backgroundColor: "rgba(30, 41, 59, 0.35)", 
     justifyContent: "center",
     alignItems: "center",
   },
   modalView: {
-    backgroundColor: "#f8fafc", // grigio molto chiaro
+    backgroundColor: "#f8fafc", 
     padding: 28,
     borderRadius: 20,
     minWidth: 320,
@@ -27,7 +27,7 @@ const modalStyles = StyleSheet.create({
     fontSize: 22,
     marginBottom: 18,
     textAlign: "center",
-    color: "#1e293b", // blu scuro
+    color: "#1e293b", 
     letterSpacing: 0.5,
   },
   modalSection: {
@@ -51,8 +51,8 @@ modalButton: {
     shadowOpacity: 0.1,
     shadowRadius: 4,
     elevation: 2,
-    minWidth: 120, // aggiunto
-    flexGrow: 1,   // aggiunto
+    minWidth: 120,
+    flexGrow: 1, 
   },
   modalButtonRed: {
     backgroundColor: "#ef4444",
@@ -67,7 +67,7 @@ modalButton: {
   buttonRow: {
     flexDirection: "row",
     justifyContent: "space-between",
-    alignItems: "center", // aggiunto
+    alignItems: "center", 
     gap: 12,
     marginTop: 24,
     width: "100%",

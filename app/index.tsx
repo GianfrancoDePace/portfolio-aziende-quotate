@@ -6,7 +6,7 @@ import QuotesData from "./api/GET/Quotazioni";
 import AggiuntaAzienda from "./components/AddNewCompany";
 import CompanyCard from "./components/CompanyCard";
 import CompanyDetailsModal from "./components/CompanyDetailModal";
-import Filter from "./components/Filter";
+import Filter from "./components/filter";
 import ProfileComponent from "./components/Profilo";
 import aziendeIniziali from "./Data/AziendeMockData";
 import mainStyles from "./style/MainStyle";
