@@ -1,71 +1,48 @@
 import { StyleSheet } from "react-native";
 
 const addNewCompanyStyles = StyleSheet.create({
-  formContainer: {
+  scrollContent: {
+    paddingBottom: 40,
     width: "100%",
-    paddingHorizontal: 0,
-    paddingTop: 32,
     alignItems: "center",
   },
-  inputGroup: {
-    marginBottom: 24,
-    width: "90%",
-    maxWidth: 340,
-    alignSelf: "center",
+  header: {
+    alignItems: "center",
+    paddingTop: 32,
+    paddingHorizontal: 8,
+    paddingBottom: 24,
+    borderBottomWidth: 1,
+    borderBottomColor: "#F1F5F9",
+    width: "100%",
   },
-  label: {
-    fontSize: 16,
-    fontWeight: "600",
-    color: "#374151",
+  headerIcon: {
+    width: 64,
+    height: 64,
+    borderRadius: 32,
+    backgroundColor: "#F0F9FF",
+    justifyContent: "center",
+    alignItems: "center",
+    marginBottom: 16,
+  },
+  iconText: {
+    fontSize: 28,
+  },
+  title: {
+    fontSize: 28,
+    fontWeight: "700",
+    color: "#1E293B",
     marginBottom: 8,
   },
-  requiredIndicator: {
-    color: "#EF4444",
-    fontWeight: "bold",
-  },
-  input: {
-    height: 56,
-    borderWidth: 2,
-    borderColor: "#E5E7EB",
-    borderRadius: 12,
-    paddingHorizontal: 16,
+  subtitle: {
     fontSize: 16,
-    color: "#1F2937",
-    backgroundColor: "#FAFAFA",
-    width: "100%",
-  },
-  inputError: {
-    borderColor: "#EF4444",
-    backgroundColor: "#FEF2F2",
+    color: "#64748B",
+    textAlign: "center",
+    lineHeight: 22,
   },
   textArea: {
-    height: 88,
+    minHeight: 80,
     paddingTop: 16,
     textAlignVertical: "top",
-  },
-  switchGroup: {
-    backgroundColor: "#F8FAFC",
-    borderRadius: 16,
-    padding: 20,
-    marginTop: 8,
-    width: "90%",
-    maxWidth: 340,
-    alignSelf: "center",
-  },
-  switchContent: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-  },
-  switchLabel: {
-    fontSize: 16,
-    fontWeight: "600",
-    color: "#374151",
-    marginBottom: 4,
-  },
-  switchDescription: {
-    fontSize: 14,
-    color: "#6B7280",
   },
   buttonContainer: {
     width: "100%",
@@ -110,44 +87,6 @@ const addNewCompanyStyles = StyleSheet.create({
     color: "#6B7280",
     fontSize: 16,
     fontWeight: "600",
-  },
-  scrollContent: {
-    paddingBottom: 40,
-    width: "100%",
-    alignItems: "center",
-  },
-  header: {
-    alignItems: "center",
-    paddingTop: 32,
-    paddingHorizontal: 8,
-    paddingBottom: 24,
-    borderBottomWidth: 1,
-    borderBottomColor: "#F1F5F9",
-    width: "100%",
-  },
-  headerIcon: {
-    width: 64,
-    height: 64,
-    borderRadius: 32,
-    backgroundColor: "#F0F9FF",
-    justifyContent: "center",
-    alignItems: "center",
-    marginBottom: 16,
-  },
-  iconText: {
-    fontSize: 28,
-  },
-  title: {
-    fontSize: 28,
-    fontWeight: "700",
-    color: "#1E293B",
-    marginBottom: 8,
-  },
-  subtitle: {
-    fontSize: 16,
-    color: "#64748B",
-    textAlign: "center",
-    lineHeight: 22,
   },
 });
 

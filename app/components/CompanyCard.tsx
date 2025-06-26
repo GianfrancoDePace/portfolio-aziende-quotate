@@ -31,7 +31,7 @@ const CompanyCard: React.FC<CompanyCardProps> = ({
                 <Text style={companyCardStyles.nome}>{azienda.nome}</Text>
                 <Text style={companyCardStyles.ticker}>({azienda.ticker})</Text>
             </View>
-            <Text style={companyCardStyles.description}>{azienda.sector}</Text>
+            <Text style={companyCardStyles.description}>{azienda.settore}</Text>
             <View style={companyCardStyles.cardRow}>
                 <Text style={companyCardStyles.detail}>
                     Azioni: <Text style={mainStyles.bold}>{azienda.azioniPossedute ?? '-'}</Text>

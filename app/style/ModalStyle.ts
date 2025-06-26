@@ -19,7 +19,7 @@ const modalStyles = StyleSheet.create({
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.15,
     shadowRadius: 8,
-    elevation: 5,
+    elevation: 25,
     maxHeight: "80%",
   },
   modalTitle: {

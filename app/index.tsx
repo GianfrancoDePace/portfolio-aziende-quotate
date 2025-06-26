@@ -6,7 +6,7 @@ import QuotesData from "./api/GET/Quotazioni";
 import AggiuntaAzienda from "./components/AddNewCompany";
 import CompanyCard from "./components/CompanyCard";
 import CompanyDetailsModal from "./components/CompanyDetails";
-import Filter from "./components/filter";
+import Filter from "./components/Filter";
 import aziendeIniziali from "./Data/AziendeMockData";
 import ProfileComponent from "./screens/Profilo";
 import mainStyles from "./style/MainStyle";
@@ -27,7 +27,7 @@ export default function Index() {
 
   // Function to add a new company
   const handleAddAzienda = (nuovaAzienda: Azienda) => {
-    const aziendaToAdd = { ...nuovaAzienda, category: nuovaAzienda.sector || 'Generale' };
+    const aziendaToAdd = { ...nuovaAzienda, category: nuovaAzienda.settore || 'Generale' };
     setAziende([...aziende, aziendaToAdd]);
     handleCloseModal();
   };
@@ -54,7 +54,7 @@ export default function Index() {
     setQuotes(prev => ({ ...prev, [ticker]: data }));
   };
 
-  // useEffect for saving and loading companies
+  //useEffect for saving and loading companies
   useEffect(() => {
     const loadAziende = async () => {
       try {

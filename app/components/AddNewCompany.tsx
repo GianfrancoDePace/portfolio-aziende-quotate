@@ -8,6 +8,7 @@ import {
   View
 } from 'react-native';
 import { useAggiuntaAziendaForm } from '../hooks/useAggiuntaAziendaForm';
+import formStyle from '../style/formStyle';
 import modalStyles from '../style/ModalStyle';
 import addNewCompanyStyles from '../style/NewCompanyStyle';
 import { Azienda } from '../types/Azienda';
@@ -75,7 +76,7 @@ export default function AggiuntaAzienda({ visible, onClose, onAddAzienda }: Aggi
             />
             {form.errors.ticker && form.ticker && !form.loadingSymbols && (
               <Text style={{ color: "red", marginBottom: 4 }}>
-                Ticker non valido. Inserisci un simbolo del mercato americano.
+                Ticker non valido. Inserisci un simbolo relativo al mercato americano.
               </Text>
             )}
             {form.loadingSymbols && (
@@ -84,7 +85,7 @@ export default function AggiuntaAzienda({ visible, onClose, onAddAzienda }: Aggi
               </Text>
             )}
 
-            <View style={addNewCompanyStyles.formContainer}>
+            <View style={formStyle.container}>
               <FormInput
                 label="Nome Azienda"
                 required
@@ -96,13 +97,12 @@ export default function AggiuntaAzienda({ visible, onClose, onAddAzienda }: Aggi
               <FormInput
                 label="Descrizione"
                 required
-                error={form.errors.sector}
+                error={form.errors.settore}
                 placeholder="Descrivi l'attività dell'azienda..."
-                value={form.sector}
-                onChangeText={form.setSector}
+                value={form.settore}
+                onChangeText={form.setSettore}
                 multiline
                 numberOfLines={3}
-                style={addNewCompanyStyles.textArea}
               />
               <FormInput
                 label="Azioni Possedute"

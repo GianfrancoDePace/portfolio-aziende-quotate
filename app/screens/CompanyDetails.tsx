@@ -52,8 +52,7 @@ export default function CompanyDetails({ route }: any) {
             <Text style={modalStyles.modalTitle}>Dettagli azienda</Text>
             <Text style={{ fontWeight: "bold", fontSize: 20, marginBottom: 4 }}>
                 {azienda.nome} ({azienda.ticker})
-            </Text>
-            <Text style={{ marginBottom: 8 }}>{azienda.description}</Text>
+            </Text>   
             <Text>Azioni possedute: <Text style={{ fontWeight: "bold" }}>{azienda.azioniPossedute ?? '-'}</Text></Text>
             <Text>
                 Prezzo attuale: {quotes && quotes[azienda.ticker]?.c

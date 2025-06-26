@@ -5,7 +5,7 @@ import { Azienda } from "../types/Azienda";
 export function useAggiuntaAziendaForm(visible: boolean) {
   const [nome, setNome] = useState('');
   const [ticker, setTicker] = useState('');
-  const [sector, setSector] = useState('');
+  const [settore, setSettore] = useState('');
   const [azioniPossedute, setAzioniPossedute] = useState('');
   const [isProfitable, setIsProfitable] = useState(true);
   const [errors, setErrors] = useState<{ [key: string]: boolean }>({});
@@ -36,20 +36,17 @@ export function useAggiuntaAziendaForm(visible: boolean) {
   const resetForm = () => {
     setNome('');
     setTicker('');
-    setSector('');
+    setSettore('');
     setAzioniPossedute('');
     setIsProfitable(true);
     setErrors({});
   };
 
-  function generateId(){
-    return 
-  }
   const validateFields = () => {
     const newErrors: { [key: string]: boolean } = {};
     if (!nome) newErrors.nome = true;
     if (!ticker) newErrors.ticker = true;
-    if (!sector) newErrors.sector = true;
+    if (!settore) newErrors.settore = true;
     if (!azioniPossedute) newErrors.azioniPossedute = true;
     if (
       ticker &&
@@ -65,7 +62,7 @@ export function useAggiuntaAziendaForm(visible: boolean) {
     id:"23",
     nome,
     ticker,
-    sector,
+    settore,
     azioniPossedute: parseInt(azioniPossedute),
     isProfitable,
   });
@@ -73,7 +70,7 @@ export function useAggiuntaAziendaForm(visible: boolean) {
   return {
     nome, setNome,
     ticker, setTicker,
-    sector, setSector,
+    settore, setSettore,
     azioniPossedute, setAzioniPossedute,
     isProfitable, setIsProfitable,
     errors, setErrors,

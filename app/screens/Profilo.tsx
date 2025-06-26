@@ -29,7 +29,7 @@ const ProfileComponent: React.FC<ProfileComponentProps> = ({ userId, aziende, cu
             <View style={profileStyle.userInfo}>
                 <Text style={profileStyle.userInfoText}>**ID Utente:** {userId}</Text>
                 <Text style={profileStyle.userInfoText}>
-                    **Saldo Portfolio:** <Text style={profileStyle.balanceText}>{portfolioBalance.toFixed(2)} $</Text>
+                    **Valore Portfolio:** <Text style={profileStyle.balanceText}>{portfolioBalance.toFixed(2)} $</Text>
                 </Text>
                     </View> 
         </View>

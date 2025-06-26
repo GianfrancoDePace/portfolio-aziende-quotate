@@ -1,6 +1,6 @@
     import axios from 'axios';
 import { useEffect } from 'react';
-
+//API per ottenere dati su vari parametri da finhub
     const API_URL = 'https://finnhub.io/api/v1/quote?symbol=';
     const TOKEN = process.env.EXPO_PUBLIC_FINNHUB_API_KEY; 
 

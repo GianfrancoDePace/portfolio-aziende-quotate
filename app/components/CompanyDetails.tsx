@@ -33,12 +33,12 @@ const CompanyDetailsModal: React.FC<CompanyDetailsModalProps> = ({
                     </Text>
                     {azienda && quotes[azienda.ticker] ? (
                         <View style={modalStyles.modalSection}>
-                            <Text>Prezzo attuale: <Text style={mainStyles.bold}>{quotes[azienda.ticker].c} $</Text></Text>
-                            <Text>Massimo oggi: {quotes[azienda.ticker].h}$</Text>
-                            <Text>Minimo oggi: {quotes[azienda.ticker].l}$</Text>
-                            <Text>Apertura: {quotes[azienda.ticker].o}$</Text>
-                            <Text>Chiusura precedente: {quotes[azienda.ticker].pc}$</Text>
-                            <Text>Variazione: {quotes[azienda.ticker].dp}%</Text>
+                            <Text>Prezzo attuale: <Text style={mainStyles.bold}>{quotes[azienda.ticker].c}$</Text></Text> {/*prezzi correnti*/}
+                            <Text>Massimo oggi: {quotes[azienda.ticker].h}$</Text> {/*prezzo massimo*/}
+                            <Text>Minimo oggi: {quotes[azienda.ticker].l}$</Text>{/*prezzo minimo*/}
+                            <Text>Apertura: {quotes[azienda.ticker].o}$</Text> {/*prezzo all'apertura*/}
+                            <Text>Chiusura precedente: {quotes[azienda.ticker].pc}$</Text>  {/*prezzo chiusura*/}
+                            <Text>Variazione: {quotes[azienda.ticker].dp}%</Text> {/*variazione prezzo %*/}
                         </View>
                     ) : (
                         <ActivityIndicator size="large" color="blue" />

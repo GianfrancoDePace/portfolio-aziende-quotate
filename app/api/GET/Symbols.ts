@@ -1,5 +1,5 @@
 import axios from "axios";
-
+//API per ottenere tutti i simboli relativi alle aziende del mercato americano
 const API_URL = "https://finnhub.io/api/v1/stock/symbol?exchange=US";
 const TOKEN = process.env.EXPO_PUBLIC_FINNHUB_API_KEY;
 
