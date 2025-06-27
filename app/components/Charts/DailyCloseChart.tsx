@@ -1,16 +1,15 @@
 import React from "react";
 import { Text } from "react-native";
-import modalStyles from "../../style/ModalStyle"; // Adatta il percorso
+import modalStyles from "../../style/ModalStyle";
 import BaseLineChart from "./base/BaseLineChart";
 
 interface DailyCloseChartProps {
-  historyData: any; // Tipizzare meglio HistoryData se possibile
+  historyData: any;
   days?: number;
 }
 
-// Funzione Helper per Daily Close Data (spostata qui)
 function getDailyCloseData(historyData: any, days: number = 30) {
-  const defaultReturn = { data: [], xLabels: [], maxValue: 0, minValue: 0 };
+  const defaultReturn = { data: [], xLabels: [], maxValue: 0 };
   if (
     !historyData ||
     !historyData["Time Series (Daily)"] ||
@@ -38,21 +37,17 @@ function getDailyCloseData(historyData: any, days: number = 30) {
     .reverse();
 
   let currentMaxValue = -Infinity;
-  let currentMinValue = Infinity;
 
   data.forEach(item => {
     if (item.value > currentMaxValue) currentMaxValue = item.value;
-    if (item.value < currentMinValue) currentMinValue = item.value;
   });
 
   const finalMaxValue = data.length > 0 ? currentMaxValue * 1.1 : 100;
-  const finalMinValue = data.length > 0 ? currentMinValue * 0.9 : 0;
 
   return {
     data: data,
     xLabels: xLabels,
     maxValue: finalMaxValue,
-    minValue: finalMinValue
   };
 }
 

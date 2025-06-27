@@ -13,7 +13,8 @@ export async function fetchSymbols(): Promise<Symbol[]> {
     const response = await axios.get(`${API_URL}&token=${TOKEN}`);
     return response.data.map((item: any) => ({
       symbol: item.symbol.toUpperCase(),
-      description: item.description}));
+      description: item.description,
+    }));
   } catch (error) {
     console.error("Errore durante il fetch dei simboli:", error);
     return [];

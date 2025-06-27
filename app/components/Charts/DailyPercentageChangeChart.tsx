@@ -8,7 +8,6 @@ interface DailyPercentageChangeChartProps {
   days?: number;
 }
 
-// Funzione Helper per Daily Percentage Change Data (spostata qui)
 function getDailyPercentageChange(historyData: any, days: number = 30) {
   const defaultReturn = { data: [], xLabels: [], maxValue: 0, minValue: 0 };
   if (
@@ -25,7 +24,6 @@ function getDailyPercentageChange(historyData: any, days: number = 30) {
   const percentageChanges: { value: number }[] = [];
   const xLabels: string[] = [];
   let currentMaxValue = -Infinity;
-  let currentMinValue = Infinity;
 
   dates.slice(0, days).reverse().forEach(date => {
     const openPrice = Number(daily[date]["1. open"]);
@@ -39,7 +37,6 @@ function getDailyPercentageChange(historyData: any, days: number = 30) {
       xLabels.push(`${d.getDate()}/${d.getMonth() + 1}`);
 
       if (value > currentMaxValue) currentMaxValue = value;
-      if (value < currentMinValue) currentMinValue = value;
     } else {
       percentageChanges.push({ value: 0 });
       const d = new Date(date);
@@ -48,13 +45,11 @@ function getDailyPercentageChange(historyData: any, days: number = 30) {
   });
 
   const finalMaxValue = percentageChanges.length > 0 ? currentMaxValue * 1.2 : 10;
-  const finalMinValue = percentageChanges.length > 0 ? currentMinValue * 1.2 : -10;
 
   return {
     data: percentageChanges,
     xLabels: xLabels,
     maxValue: finalMaxValue,
-    minValue: finalMinValue
   };
 }
 

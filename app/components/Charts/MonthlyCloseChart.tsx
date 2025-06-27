@@ -1,6 +1,6 @@
 import React from "react";
 import { Text } from "react-native";
-import modalStyles from "../../style/ModalStyle"; // Adatta il percorso
+import modalStyles from "../../style/ModalStyle";
 import BaseLineChart from "./base/BaseLineChart";
 
 interface MonthlyCloseChartProps {
@@ -8,7 +8,6 @@ interface MonthlyCloseChartProps {
   months?: number;
 }
 
-// Funzione Helper per Monthly First Close Data (spostata qui)
 function getMonthlyFirstCloseData(historyData: any, months: number = 12) {
   const defaultReturn = { data: [], xLabels: [], maxValue: 0, minValue: 0 };
   if (
@@ -41,21 +40,17 @@ function getMonthlyFirstCloseData(historyData: any, months: number = 12) {
   });
 
   let currentMaxValue = -Infinity;
-  let currentMinValue = Infinity;
-
+  
   data.forEach(item => {
     if (item.value > currentMaxValue) currentMaxValue = item.value;
-    if (item.value < currentMinValue) currentMinValue = item.value;
   });
-
   const finalMaxValue = data.length > 0 ? currentMaxValue * 1.1 : 100;
-  const finalMinValue = data.length > 0 ? currentMinValue * 0.9 : 0;
+
 
   return {
     data: data,
     xLabels: xLabels,
     maxValue: finalMaxValue,
-    minValue: finalMinValue
   };
 }
 

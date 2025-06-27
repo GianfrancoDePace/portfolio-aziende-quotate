@@ -6,9 +6,9 @@ interface BaseLineChartProps {
   data: { value: number }[];
   xLabels: string[];
   maxValue?: number;
-  showPointValues?: boolean; // Controllo per i valori sui punti
-  showYAxisLabels?: boolean; // Nuova prop: controllo per le etichette dell'asse Y
-  yAxisInterval?: number; // Nuova prop: intervallo per le etichette dell'asse Y
+  showPointValues?: boolean; 
+  showYAxisLabels?: boolean;
+  yAxisInterval?: number; 
 }
 
 export default function BaseLineChart({
@@ -16,9 +16,9 @@ export default function BaseLineChart({
   xLabels,
   maxValue,
   showPointValues = true,
-  showYAxisLabels = true, // Default a true
-  yAxisInterval // Default calcolato internamente
+  showYAxisLabels = true, 
 }: BaseLineChartProps) {
+  
   const dataToRender = data && data.length > 0 ? data : [{ value: 0 }];
   const labelsToRender = xLabels && xLabels.length > 0 ? xLabels : ['N/A'];
 

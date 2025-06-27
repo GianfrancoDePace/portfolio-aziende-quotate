@@ -13,8 +13,7 @@ export default function CompanyDetails() {
   const params = useLocalSearchParams();
   const azienda = params.azienda ? JSON.parse(params.azienda as string) : null;
   const quotes = params.quotes ? JSON.parse(params.quotes as string) : {};
-  const [historyData, setHistoryData] = useState<any>(null); // historyData sarà passato ai componenti figlio
-
+  const [historyData, setHistoryData] = useState<any>(null);
   const isLoading = !historyData;
 
   return (

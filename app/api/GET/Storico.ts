@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { useEffect } from 'react';
-//prende i dati di tutte le chiusure da aplha venture
+//prende i dati di tutte le chiusure e aperture di un azienda da aplha venture 
 const API_URL = 'https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=';
 const TOKEN = process.env.EXPO_PUBLIC_ALPHA_VENTURE_API_KEY;
 const date = new Date()
