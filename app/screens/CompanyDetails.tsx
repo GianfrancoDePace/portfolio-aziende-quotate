@@ -2,95 +2,58 @@ import { Stack, useLocalSearchParams } from "expo-router";
 import React, { useState } from "react";
 import { ActivityIndicator, ScrollView, Text, View } from "react-native";
 import History from "../api/GET/Storico";
-import GraphedData from "../components/Graph";
 import modalStyles from "../style/ModalStyle";
 
-function getMonthlyFirstClose(historyData: any) {
-    if (
-        !historyData ||
-        !historyData["Time Series (Daily)"] ||
-        typeof historyData["Time Series (Daily)"] !== "object"
-    ) return { data: [], xLabels: [] };
+// Importa i nuovi componenti grafico
+import DailyCloseChart from "../components/Charts/DailyCloseChart";
+import DailyPercentageChangeChart from "../components/Charts/DailyPercentageChangeChart";
+import MonthlyCloseChart from "../components/Charts/MonthlyCloseChart";
 
-    const daily = historyData["Time Series (Daily)"];
-    const dates = Object.keys(daily).sort();
-    const months: Record<string, { date: string; close: number }> = {};
+export default function CompanyDetails() {
+  const params = useLocalSearchParams();
+  const azienda = params.azienda ? JSON.parse(params.azienda as string) : null;
+  const quotes = params.quotes ? JSON.parse(params.quotes as string) : {};
+  const [historyData, setHistoryData] = useState<any>(null); // historyData sarà passato ai componenti figlio
 
-    dates.forEach(date => {
-        const [year, month] = date.split("-");
-        const key = `${year}-${month}`;
-        if (!months[key]) {
-            months[key] = { date, close: Number(daily[date]["4. close"]) };
-        }
-    });
+  const isLoading = !historyData;
 
-    // Prendi solo gli ultimi 12 mesi
-    const last12 = Object.values(months).slice(-12);
+  return (
+    <ScrollView contentContainerStyle={{ padding: 16 }}>
+      <Stack.Screen options={{ title: `${azienda.nome}` }} />
+      <Text style={modalStyles.modalTitle}>Dettagli azienda</Text>
+      <Text style={{ fontWeight: "bold", fontSize: 20, marginBottom: 4 }}>
+        {azienda.nome} ({azienda.ticker})
+      </Text>
+      <Text>
+        Azioni possedute:{" "}
+        <Text style={{ fontWeight: "bold" }}>{azienda.azioniPossedute ?? "-"}</Text>
+      </Text>
+      <Text>
+        Prezzo attuale:{" "}
+        {quotes && quotes[azienda.ticker]?.c
+          ? `${quotes[azienda.ticker].c.toFixed(2)} $`
+          : "-"}
+      </Text>
+      <Text style={{ marginBottom: 16 }}>
+        Stato: {azienda.isProfitable ? "Profittevole 📈" : "In perdita 📉"}
+      </Text>
 
-    return {
-        data: last12.map(item => ({ value: item.close })),
-        xLabels: last12.map(item => {
-            const d = new Date(item.date);
-            return `${d.getMonth() + 1}/${d.getFullYear().toString().slice(-2)}`; // es: 6/25
-        }),
-    };
-}
+      {/* Il componente History per recuperare i dati */}
+      <History ticker={azienda.ticker} onData={setHistoryData} />
 
-export default function CompanyDetails({ route }: any) {
-    const params = useLocalSearchParams();
-    const azienda = params.azienda ? JSON.parse(params.azienda as string) : null;
-    const quotes = params.quotes ? JSON.parse(params.quotes as string) : {}
-    const [historyData, setHistoryData] = useState<any>(null);
-
-    // Dati annuali per il secondo grafico
-    const monthly = getMonthlyFirstClose(historyData);
-    const isLoading = !historyData;
-
-    return (
-        <ScrollView contentContainerStyle={{ padding: 16 }}>
-            <Stack.Screen options={{ title: `${azienda.nome}` }} />
-            <Text style={modalStyles.modalTitle}>Dettagli azienda</Text>
-            <Text style={{ fontWeight: "bold", fontSize: 20, marginBottom: 4 }}>
-                {azienda.nome} ({azienda.ticker})
-            </Text>   
-            <Text>Azioni possedute: <Text style={{ fontWeight: "bold" }}>{azienda.azioniPossedute ?? '-'}</Text></Text>
-            <Text>
-                Prezzo attuale: {quotes && quotes[azienda.ticker]?.c
-                    ? `${quotes[azienda.ticker].c.toFixed(2)} $`
-                    : '-'}
-            </Text>
-            <Text style={{ marginBottom: 16 }}>
-                Stato: {azienda.isProfitable ? "Profittevole 📈" : "In perdita 📉"}
-            </Text>
-
-            <Text style={modalStyles.modalTitle}>Storico azioni mensile</Text>
-            <History
-                ticker={azienda.ticker}
-                onData={setHistoryData}
-            />
-
-            {isLoading ? (
-                <View style={{ marginVertical: 24, alignItems: "center" }}>
-                    <ActivityIndicator size="large" color="blue" />
-                    <Text style={{ marginTop: 8 }}>Caricamento grafici...</Text>
-                </View>
-            ) : (
-                <>
-                    <GraphedData historyData={historyData} days={30} />
-
-                    <Text style={modalStyles.modalTitle}>Andamento annuale (primo close del mese)</Text>
-                    <GraphedData
-                        historyData={{
-                            "Time Series (Daily)": {},
-                            data: monthly.data,
-                            xLabels: monthly.xLabels,
-                        }}
-                        days={12}
-                        customData={monthly.data}
-                        customLabels={monthly.xLabels}
-                    />
-                </>
-            )}
-        </ScrollView>
-    );
+      {isLoading ? (
+        <View style={{ marginVertical: 24, alignItems: "center" }}>
+          <ActivityIndicator size="large" color="blue" />
+          <Text style={{ marginTop: 8 }}>Caricamento grafici...</Text>
+        </View>
+      ) : (
+        <>
+          {/* Renderizza i componenti grafici specifici, passando solo historyData */}
+          <DailyCloseChart historyData={historyData} days={30} />
+          <MonthlyCloseChart historyData={historyData} months={12} />
+          <DailyPercentageChangeChart historyData={historyData} days={30} />
+        </>
+      )}
+    </ScrollView>
+  );
 }
